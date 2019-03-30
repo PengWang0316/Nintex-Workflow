@@ -37,7 +37,7 @@ const config = {
       //   ],
       //   exclude: /\.global\.css$/,
       // },
-      { test: /\.(png|jpg|gif)$/, use: [{ loader: 'url-loader', options: { limit: 8192 } }] },
+      { test: /\.(png|jpg|gif)$/, use: ['file-loader'] },
     ],
   },
   devServer: {
@@ -53,10 +53,10 @@ const config = {
     //   name: 'vendor', // Specify the common bundle's name.
     //   minChunks: Infinity
     // }),
-    // new CopyWebpackPlugin([
-    //   // Copy directory contents to {output}/
-    //   { from: 'app/pwa' },
-    // ]),
+    new CopyWebpackPlugin([
+      // Copy directory contents to {output}/
+      { from: 'app/assets', to: 'assets' },
+    ]),
     // new InjectManifest({
     //   swSrc: './app/service-worker.js',
     //   swDest: './service-worker.js',
@@ -84,7 +84,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production') {
   });
 */
 
-  config.module.rules[2] = ({
+  config.module.rules[1] = ({
     test: /\.css$/,
     use: [
       MiniCssExtractPlugin.loader,
