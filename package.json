@@ -1,0 +1,65 @@
+{
+  "name": "nintex-workflow",
+  "version": "0.0.1",
+  "description": "A web application for Nintex.",
+  "main": "index.html",
+  "scripts": {
+    "create": "webpack",
+    "start": "webpack-dev-server --mode development --open",
+    "build": "babel src --plugins @babel/plugin-transform-runtime --out-dir dist/javascript/*.js && uglifyjs dist/javascript/*.js -c -m -o dist/javascript/",
+    "test": "jest",
+    "testCoverage": "jest --coverage --runInBand",
+    "testWatch": "jest --watch",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+  },
+  "keywords": [
+    "Nintex"
+  ],
+  "author": "Kevin W.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PengWang0316/Nintex-Workflow.git"
+  },
+  "sideEffects": false,
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "e2e/*"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/app/tools/assetsTransformer.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/app/tools/setupTests.js"
+    ],
+    "testEnvironment": "jest-environment-jsdom-global",
+    "testURL": "http://localhost",
+    "verbose": true
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "coveralls": "^3.0.3",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.1.0",
+    "jest-environment-jsdom": "^24.0.0",
+    "jest-environment-jsdom-global": "^1.1.1",
+    "uglify-es": "^3.3.9"
+  }
+}
