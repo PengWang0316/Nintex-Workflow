@@ -39,7 +39,9 @@
     "testURL": "http://localhost",
     "verbose": true
   },
-  "dependencies": {},
+  "dependencies": {
+    "tabulator-tables": "^4.2.3"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
