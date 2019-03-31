@@ -1,5 +1,5 @@
 import initialNWC from './controllers/NWCController';
-import searchWorkflows from './controllers/SearchWorkFlow';
+import searchWorkflows from './controllers/SearchWorkFlowController';
 import { TOOLTIP_DATA_TOGGLE, SEARCH_BTN_ID } from './config';
 import { fillTable } from './views/WorkflowTableView';
 
