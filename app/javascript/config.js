@@ -5,3 +5,6 @@ export const NWC_LIST_WORKFLOWS_API = 'https://us.nintex.io/workflows/v1/designs
 export const BEARER_HEADER = 'Bearer';
 export const TOOLTIP_DATA_TOGGLE = '[data-toggle="tooltip"]';
 export const SEARCH_BTN_ID = '#searchBtn';
+export const SEARCH_IMG_ID = '#searchImg';
+export const SEARCH_ICON = '/assets/images/search.png';
+export const LOADING_ICON = '/assets/images/loadingSpinner.svg';
