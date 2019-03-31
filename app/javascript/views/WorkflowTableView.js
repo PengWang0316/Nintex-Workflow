@@ -38,15 +38,13 @@ const columns = [
 ];
 
 
-export const fillTable = (data) => {
-  table = new Tabulator(WORKFLOW_TABLE_ID, {
-    pagination: 'local',
-    paginationSize: 10,
-    height: '100%',
-    data,
-    layout: 'fitColumns', // fit columns to width of table (optional)
-    columns,
-  });
-};
+export const fillTable = data => new Tabulator(WORKFLOW_TABLE_ID, {
+  pagination: 'local',
+  paginationSize: 10,
+  height: '100%',
+  data,
+  layout: 'fitColumns', // fit columns to width of table (optional)
+  columns,
+});
 
 export default fillTable;
