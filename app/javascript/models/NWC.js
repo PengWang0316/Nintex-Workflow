@@ -1,4 +1,5 @@
-const NWC_URL_API_KEY = 'nintex-nwc-url-key';
+import { NWC_URL_API_KEY } from '../config';
+
 /**
  * The url and api key pair will be retrieved from the LocalStorage
  * A LocalStorage version (In most modern browser, the LocalStorage can support up to 10MB)
