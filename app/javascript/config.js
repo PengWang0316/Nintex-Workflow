@@ -8,3 +8,6 @@ export const SEARCH_BTN_ID = '#searchBtn';
 export const SEARCH_IMG_ID = '#searchImg';
 export const SEARCH_ICON = '/assets/images/search.png';
 export const LOADING_ICON = '/assets/images/loadingSpinner.svg';
+export const RM_ALERT_ID = '#rmAlert';
+export const RM_BTN_CLASS = 'removeBtnClass';
+export const DELETE_CONFIRM_BTN_ID = '#deleteConfirmBtn';

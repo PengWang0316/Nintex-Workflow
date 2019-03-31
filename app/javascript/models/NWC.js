@@ -20,7 +20,7 @@ export const fetchNWCApis = () => JSON.parse(localStorage.getItem(NWC_URL_API_KE
 export const addNWCApi = (tenant, key) => {
   const nwc = fetchNWCApis();
   nwc[tenant] = key;
-  localStorage.setItem(NWC_URL_API_KEY, nwc);
+  localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };
 
 /**
@@ -31,7 +31,7 @@ export const addNWCApi = (tenant, key) => {
 export const removeNWCApi = (tenant) => {
   const nwc = fetchNWCApis();
   delete nwc[tenant];
-  localStorage.setItem(NWC_URL_API_KEY, nwc);
+  localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };
 
 const parseDataToArray = data => data.map((item) => {
