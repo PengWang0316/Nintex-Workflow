@@ -4,7 +4,8 @@ main {
 }
 
 .float-button {
-  position: absolute;
+  position: -webkit-sticky;
+  position: sticky;
   float: right;
   width: 57px;
   height: 57px;
