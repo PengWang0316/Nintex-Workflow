@@ -2,3 +2,13 @@ main {
   margin: 40px auto;
   width: 80%;
 }
+
+.float-button {
+  position: absolute;
+  float: right;
+  width: 57px;
+  height: 57px;
+  border-radius: 41px;
+  right: 20px;
+  bottom: 20px;
+}
