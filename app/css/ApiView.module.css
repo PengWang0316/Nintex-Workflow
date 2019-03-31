@@ -2,5 +2,31 @@
   padding: 1px;
   font-size: 8px;
   border-radius: 15px;
-  width:18px;
+  width: 18px;
+  background-color:rgba(0, 0, 0, 0.26);
+  color: white;
+}
+
+.removeBtn:hover {
+  cursor: pointer;
+  background: #7c7c7c;
+  color: white;
+}
+
+.badge {
+  color: rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 16px;
+  vertical-align: middle;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 0.8125rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  height: 32px;
+  margin-right: 12px;
 }
