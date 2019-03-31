@@ -18,7 +18,7 @@ const columns = [
     title: 'Status', field: 'status', align: 'left', sorter: 'string',
   },
   {
-    title: 'Last Edited', field: 'lastEdited', align: 'left', sorter: 'date',
+    title: 'Last Edited', field: 'lastEdited', align: 'left', sorter: 'date', formatter: 'datetime',
   },
   {
     title: 'Edited By', field: 'editedBy', align: 'left', sorter: 'string',
@@ -40,6 +40,8 @@ const columns = [
 
 export const fillTable = (data) => {
   table = new Tabulator(WORKFLOW_TABLE_ID, {
+    pagination: 'local',
+    paginationSize: 10,
     height: '100%',
     data,
     layout: 'fitColumns', // fit columns to width of table (optional)
