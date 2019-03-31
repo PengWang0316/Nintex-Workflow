@@ -2,5 +2,5 @@
   "presets": [
     "@babel/preset-env"
   ],
-  "plugins": ["transform-class-properties", "@babel/plugin-proposal-object-rest-spread"],
+  "plugins": ["transform-class-properties", "@babel/plugin-proposal-object-rest-spread", "@babel/transform-runtime"],
 }
