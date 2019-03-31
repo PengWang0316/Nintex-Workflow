@@ -27,16 +27,16 @@ const config = {
   module: {
     rules: [
       { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      // { test: /\.global\.css$/, use: ['style-loader', 'css-loader'], exclude: /\.module\.css$/ },
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     'style-loader',
-      //     { loader: 'css-loader', options: { sourceMap: true, modules: true, localIdentName: '[local]___[hash:base64:5]' } },
-      //   ],
-      //   exclude: /\.global\.css$/,
-      // },
+      // { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.global\.css$/, use: ['style-loader', 'css-loader'], exclude: /\.module\.css$/ },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { sourceMap: true, modules: true, localIdentName: '[local]___[hash:base64:5]' } },
+        ],
+        exclude: /\.global\.css$/,
+      },
       { test: /\.(png|jpg|gif)$/, use: ['file-loader'] },
     ],
   },
@@ -84,7 +84,7 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'production') {
   });
 */
 
-  config.module.rules[1] = ({
+  config.module.rules[2] = ({
     test: /\.css$/,
     use: [
       MiniCssExtractPlugin.loader,
