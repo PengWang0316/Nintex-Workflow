@@ -1,11 +1,26 @@
 import Tabulator from 'tabulator-tables';
 
-import { WORKFLOW_TABLE_ID, NAME_FILTER_ID } from '../config';
+import { WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME } from '../config';
 
 let table;
 const nameFilterInput = $(NAME_FILTER_ID);
 
 const columns = [
+  {
+    title: '',
+    field: 'id',
+    align: 'right',
+    width: 30,
+    resizable: false,
+    // frozen: true,
+    headerSort: false,
+    formatter(cell, formatterParams, onRendered) {
+      // cell - the cell component
+      // formatterParams - parameters set for the column
+      // onRendered - function to call when the formatter has been rendered
+      return `<input class="form-check-input" type="radio" name="${TABLE_RADIO_NAME}" value="${cell._cell.value}">`; // return the contents of the cell;
+    },
+  },
   {
     title: 'Tenant', field: 'tenant', align: 'left', sorter: 'string',
   },
@@ -22,22 +37,13 @@ const columns = [
     title: 'Status', field: 'status', align: 'left', sorter: 'string',
   },
   {
+    title: 'Active', field: 'active', align: 'left', sorter: 'string',
+  },
+  {
     title: 'Last Edited', field: 'lastEdited', align: 'left', sorter: 'date', formatter: 'datetime',
   },
   {
     title: 'Edited By', field: 'editedBy', align: 'left', sorter: 'string',
-  },
-  {
-    title: 'Actions',
-    field: 'id',
-    align: 'center',
-    formatter(cell, formatterParams, onRendered) {
-      // cell - the cell component
-      // formatterParams - parameters set for the column
-      // onRendered - function to call when the formatter has been rendered
-
-      return '...'; // return the contents of the cell;
-    },
   },
 ];
 
@@ -57,4 +63,6 @@ export const filterName = () => {
   if (table && nameFilterInput) table.setFilter('name', 'like', nameFilterInput.val());
 };
 
-export default fillTable;
+export const updateActiveColumn = (activeElement) => {
+  activeElement.innerText = activeElement.innerText === 'true' ? 'false' : 'true';
+};
