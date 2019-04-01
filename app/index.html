@@ -29,7 +29,7 @@
         <div class="card-header">NWC URL and API</div>
         <div id="nwcContainer" class="card-body"></div>
         <div class="d-flex flex-row-reverse">
-            <button id="addNWCBtn" type="button" class="btn btn-outline-secondary btn-sm mr-3 mb-3">Add URL</button>
+            <button id="addNwcBtn" type="button" class="btn btn-outline-secondary btn-sm mr-3 mb-3">Add URL</button>
         </div>
       </div>
 
@@ -51,6 +51,35 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-danger" id="deleteConfirmBtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addNwcApi" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add a new key for NWC</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="addNwcName">Tenant name</label>
+                <input type="text" class="form-control" id="addNwcName" placeholder="Enter name">
+              </div>
+              <div class="form-group">
+                <label for="addNwcKey">Api key</label>
+                <input type="text" class="form-control" id="addNwcKey" placeholder="Enter Api key">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="addNwcConfirmBtn" disabled >Save</button>
           </div>
         </div>
       </div>
