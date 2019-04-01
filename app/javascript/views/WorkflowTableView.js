@@ -7,6 +7,9 @@ const nameFilterInput = $(NAME_FILTER_ID);
 
 const columns = [
   {
+    title: 'Tenant', field: 'tenant', align: 'left', sorter: 'string',
+  },
+  {
     title: 'Name', field: 'name', align: 'left', sorter: 'string',
   },
   {

@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER } from '../config';
 
+const TENANT_REGEXP = /&tenant=(.+)/;
+
 /**
  * The url and api key pair will be retrieved from the LocalStorage
  * A LocalStorage version (In most modern browser, the LocalStorage can support up to 10MB)
@@ -35,21 +37,26 @@ export const removeNWCApi = (tenant) => {
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };
 
-const parseDataToArray = data => data.map((item) => {
-  const isPublished = Object.keys(item.published).length !== 0;
-  return {
-    id: item.id,
-    name: item.name,
-    eventType: isPublished ? item.published.eventType.name : item.draft.eventType.name,
-    type: isPublished ? item.published.publishedType : '',
-    status: isPublished ? 'Published' : 'Draft',
-    lastEdited: isPublished
-      ? new Date(item.published.lastPublished)
-      : new Date(item.draft.lastModified),
-    editedBy: isPublished ? item.published.author.name : item.draft.author.name,
-    description: isPublished ? item.published.description : item.draft.description,
-  };
-});
+const parseDataToArray = (data) => {
+  const arr = data.map((item) => {
+    const isPublished = Object.keys(item.published).length !== 0;
+    return {
+      id: item.id,
+      tenant: item.tenant,
+      name: item.name,
+      eventType: isPublished ? item.published.eventType.name : item.draft.eventType.name,
+      type: isPublished ? item.published.publishedType : '',
+      status: isPublished ? 'Published' : 'Draft',
+      lastEdited: isPublished
+        ? new Date(item.published.lastPublished)
+        : new Date(item.draft.lastModified),
+      editedBy: isPublished ? item.published.author.name : item.draft.author.name,
+      description: isPublished ? item.published.description : item.draft.description,
+    };
+  });
+  // Sort by lastEdited data
+  return arr.sort((prev, next) => next.lastEdited - prev.lastEdited);
+};
 
 export const fetchWorkflows = () => {
   const urlKeys = fetchNWCApis();
@@ -57,12 +64,26 @@ export const fetchWorkflows = () => {
     NWC_LIST_WORKFLOWS_API,
     {
       headers: { authorization: `${BEARER_HEADER} ${urlKeys[key]}` },
-      params: { limit: '1000', sortBy: 'lastModified', sortOrder: 'desc' },
+      params: {
+        limit: '1000', sortBy: 'lastModified', sortOrder: 'desc', tenant: key,
+      },
     },
   ));
+
+  // return axios.all(axiosArr).then(axios.spread((acct, perms) => {
+  //   console.log(acct);
+  //   console.log(perms);
+  // }));
+
   return axios.all(axiosArr).then((result) => {
     const data = [];
-    result.forEach((item) => { data.push(...item.data.workflows); });
+    result.forEach((item) => {
+      const tenant = TENANT_REGEXP.exec(item.request.responseURL)[1];
+      item.data.workflows.forEach((row) => {
+        row.tenant = tenant;
+        data.push(row);
+      });
+    });
     return parseDataToArray(data);
   });
 };
