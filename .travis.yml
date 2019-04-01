@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "node"
+before_install:
+  - export TZ=Canada/Pacific
+script: npm run unitTestCoverage
+after_success: 'npm run coveralls'
