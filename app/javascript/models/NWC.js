@@ -47,6 +47,7 @@ const parseDataToArray = (data) => {
       eventType: isPublished ? item.published.eventType.name : item.draft.eventType.name,
       type: isPublished ? item.published.publishedType : '',
       status: isPublished ? 'Published' : 'Draft',
+      active: isPublished ? item.published.isActive : '',
       lastEdited: isPublished
         ? new Date(item.published.lastPublished)
         : new Date(item.draft.lastModified),
@@ -87,3 +88,35 @@ export const fetchWorkflows = () => {
     return parseDataToArray(data);
   });
 };
+
+export const activateAct = (workflowId, tenant) => axios.post(
+  `${NWC_LIST_WORKFLOWS_API}/${workflowId}/activate`,
+  {},
+  {
+    headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
+  },
+);
+
+export const deactivateAct = (workflowId, tenant) => axios.post(
+  `${NWC_LIST_WORKFLOWS_API}/${workflowId}/deactivate`,
+  {},
+  {
+    headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
+  },
+);
+
+export const exportDraftAct = (workflowId, tenant) => axios.post(
+  `${NWC_LIST_WORKFLOWS_API}/${workflowId}/draft/export`,
+  {},
+  {
+    headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
+  },
+);
+
+export const exportPublishedAct = (workflowId, tenant) => axios.post(
+  `${NWC_LIST_WORKFLOWS_API}/${workflowId}/published/export`,
+  {},
+  {
+    headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
+  },
+);
