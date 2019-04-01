@@ -23,3 +23,4 @@ export const DEACTIVATE_ACT_ID = '#deactivateAct';
 export const EXPORT_ACT_ID = '#exportAct';
 export const MOVE_ACT_ID = '#moveAct';
 export const DELETE_ACT_ID = '#deleteAct';
+export const ALERT_ELEMENT_ID = '#alert';
