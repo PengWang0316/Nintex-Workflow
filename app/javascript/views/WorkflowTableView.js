@@ -8,7 +8,7 @@ const nameFilterInput = $(NAME_FILTER_ID);
 const columns = [
   {
     title: '',
-    field: 'id',
+    field: 'workflowId',
     align: 'right',
     width: 30,
     resizable: false,
@@ -45,6 +45,11 @@ const columns = [
   {
     title: 'Edited By', field: 'editedBy', align: 'left', sorter: 'string',
   },
+  { // A hidden column to track the row number in the table for updating.
+    title: '',
+    field: 'id',
+    visible: false,
+  },
 ];
 
 
@@ -65,4 +70,8 @@ export const filterName = () => {
 
 export const updateActiveColumn = (activeElement) => {
   activeElement.innerText = activeElement.innerText === 'true' ? 'false' : 'true';
+};
+
+export const removeRow = (rowNum) => {
+  if (table) table.deleteRow(rowNum);
 };

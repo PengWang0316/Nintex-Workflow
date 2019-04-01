@@ -3,9 +3,9 @@ import {
   MOVE_ACT_ID, DELETE_ACT_ID, TABLE_RADIO_NAME,
 } from '../config';
 import {
-  activateAct, deactivateAct, exportDraftAct, exportPublishedAct,
+  activateAct, deactivateAct, exportDraftAct, exportPublishedAct, deleteWorkflowAct,
 } from '../models/NWC';
-import { updateActiveColumn } from '../views/WorkflowTableView';
+import { updateActiveColumn, removeRow } from '../views/WorkflowTableView';
 import { toggleAlert } from '../views/AlertView';
 
 const action = (fn) => {
@@ -40,8 +40,13 @@ const exportAct = () => action((workflowId, tenant, rowElement) => {
   toggleAlert('The workflow has been exported successfully');
 });
 
-const moveAct = () => action((workflowId, tenant) => console.log('move ', workflowId));
-const deleteAct = () => action((workflowId, tenant) => console.log('delete ', workflowId));
+const moveAct = () => action((workflowId, tenant) => toggleAlert('No implement yet!'));
+
+const deleteAct = () => action((workflowId, tenant, rowElement) => {
+  removeRow(rowElement.childNodes[9].innerText);
+  deleteWorkflowAct(workflowId, tenant);
+  toggleAlert('The workflow has been deleted successfully');
+});
 
 export const initialActionBtns = () => {
   $(ACTIVATE_ACT_ID).on('click', toggleActivateAct);

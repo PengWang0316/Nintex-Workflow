@@ -38,10 +38,11 @@ export const removeNWCApi = (tenant) => {
 };
 
 const parseDataToArray = (data) => {
-  const arr = data.map((item) => {
+  const arr = data.map((item, index) => {
     const isPublished = Object.keys(item.published).length !== 0;
     return {
-      id: item.id,
+      id: index,
+      workflowId: item.id,
       tenant: item.tenant,
       name: item.name,
       eventType: isPublished ? item.published.eventType.name : item.draft.eventType.name,
@@ -115,6 +116,14 @@ export const exportDraftAct = (workflowId, tenant) => axios.post(
 
 export const exportPublishedAct = (workflowId, tenant) => axios.post(
   `${NWC_LIST_WORKFLOWS_API}/${workflowId}/published/export`,
+  {},
+  {
+    headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
+  },
+);
+
+export const deleteWorkflowAct = (workflowId, tenant) => axios.delete(
+  `${NWC_LIST_WORKFLOWS_API}/${workflowId}`,
   {},
   {
     headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
