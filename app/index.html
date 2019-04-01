@@ -33,14 +33,28 @@
         </div>
       </div>
 
-      <div class="input-group input-group-sm mb-3 filter-div float-right mt-4">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Filter Name</span>
+      <div class="float-right mt-4 d-flex">
+        <div class="input-group input-group-sm mb-3 filter-div">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Filter Name</span>
+          </div>
+          <input id="nameFilter" type="text" class="form-control filter-input" placeholder="Enter name to filter" />
         </div>
-        <input id="nameFilter" type="text" class="form-control filter-input" placeholder="Enter name to filter" />
+        <div class="dropdown ml-3">
+          <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+          </button>
+          <div class="dropdown-menu" aria-labelledby="actionBtn">
+            <a class="dropdown-item" href="#" id="activateAct">Activate/Deactivate</a>
+            <a class="dropdown-item" href="#" id="exportAct">Export</a>
+            <a class="dropdown-item" href="#" id="moveAct">Move</a>
+            <a class="dropdown-item delete-act" href="#" id="deleteAct">Delete</a>
+          </div>
+        </div>
       </div>
 
       <div id="workflowTable"></div>
+      <div class="alert alert-success text-center" role="alert" id="alert"></div>
     </main>
 
     <div id="rmAlert" class="modal fade" tabindex="-1" role="dialog">
@@ -94,7 +108,12 @@
 
     <button id="searchBtn" type="button" class="btn btn-secondary float-button" data-toggle="tooltip" data-placement="top" title="Search all workflow"><img id="searchImg" src="/assets/images/search.png" alt="search" /></button>
     
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
