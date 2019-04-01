@@ -18,7 +18,8 @@ export const fetchNWCApis = () => JSON.parse(localStorage.getItem(NWC_URL_API_KE
  * @param {string} key is the api key value for this tenant url
  */
 export const addNWCApi = (tenant, key) => {
-  const nwc = fetchNWCApis();
+  let nwc = fetchNWCApis();
+  if (!nwc) nwc = {};
   nwc[tenant] = key;
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };

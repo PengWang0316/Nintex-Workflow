@@ -48,7 +48,7 @@ export const confirmRm = ({ target }) => {
 
 export const initialNWC = () => {
   const nwcKeys = fetchNWCApis();
-  initialNWCApiView(nwcKeys);
+  if (nwcKeys && Object.keys(nwcKeys).length !== 0) initialNWCApiView(nwcKeys);
   // Add listeners
   $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
   $(ADD_NWC_BTN_ID).on('click', toggleAddModal);
