@@ -13,3 +13,7 @@ main {
   right: 20px;
   bottom: 20px;
 }
+
+.filter-div {
+  width: 250px;
+}

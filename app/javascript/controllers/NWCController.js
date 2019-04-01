@@ -39,21 +39,23 @@ const addNwcApi = () => {
   toggleAddModal();
 };
 
-export const initialNWC = () => {
-  const nwcKeys = fetchNWCApis();
-  initialNWCApiView(nwcKeys);
-  // Add listeners
-  $(ADD_NWC_BTN_ID).on('click', toggleAddModal);
-  $(ADD_NWC_NAME_ID).on('input', checkInput);
-  $(ADD_NWC_KEY_ID).on('input', checkInput);
-  $(ADD_NWC_CONFIRM_BTN_ID).on('click', addNwcApi);
-};
-
 export const confirmRm = ({ target }) => {
   const key = $(target).attr('data-key');
   $(`#nwc_${key}`).detach();
   toggleRemoveAlert();
   removeNWCApi(key);
+};
+
+export const initialNWC = () => {
+  const nwcKeys = fetchNWCApis();
+  initialNWCApiView(nwcKeys);
+  // Add listeners
+  $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
+  $(ADD_NWC_BTN_ID).on('click', toggleAddModal);
+  $(ADD_NWC_NAME_ID).on('input', checkInput);
+  $(ADD_NWC_KEY_ID).on('input', checkInput);
+  $(ADD_NWC_CONFIRM_BTN_ID).on('click', addNwcApi);
+  $(DELETE_CONFIRM_BTN_ID).on('click', confirmRm);
 };
 
 export const addNWCKey = () => {};

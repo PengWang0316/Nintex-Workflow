@@ -16,3 +16,4 @@ export const ADD_NWC_CONFIRM_BTN_ID = '#addNwcConfirmBtn';
 export const ADD_NWC_NAME_ID = '#addNwcName';
 export const ADD_NWC_KEY_ID = '#addNwcKey';
 export const ADD_NWC_BTN_ID = '#addNwcBtn';
+export const NAME_FILTER_ID = '#nameFilter';

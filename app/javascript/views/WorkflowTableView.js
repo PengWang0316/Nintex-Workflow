@@ -1,8 +1,9 @@
 import Tabulator from 'tabulator-tables';
 
-import { WORKFLOW_TABLE_ID } from '../config';
+import { WORKFLOW_TABLE_ID, NAME_FILTER_ID } from '../config';
 
 let table;
+const nameFilterInput = $(NAME_FILTER_ID);
 
 const columns = [
   {
@@ -38,13 +39,19 @@ const columns = [
 ];
 
 
-export const fillTable = data => new Tabulator(WORKFLOW_TABLE_ID, {
-  pagination: 'local',
-  paginationSize: 10,
-  height: '100%',
-  data,
-  layout: 'fitColumns', // fit columns to width of table (optional)
-  columns,
-});
+export const fillTable = (data) => {
+  table = new Tabulator(WORKFLOW_TABLE_ID, {
+    pagination: 'local',
+    paginationSize: 10,
+    height: '100%',
+    data,
+    layout: 'fitColumns', // fit columns to width of table (optional)
+    columns,
+  });
+};
+
+export const filterName = () => {
+  if (table && nameFilterInput) table.setFilter('name', 'like', nameFilterInput.val());
+};
 
 export default fillTable;
