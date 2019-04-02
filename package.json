@@ -25,7 +25,8 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "e2e/*"
+      "e2e/*",
+      "__tests__/models/TestData.js"
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/app/tools/assetsTransformer.js",
@@ -46,6 +47,7 @@
     "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/runtime": "^7.3.4",
+    "axios-mock-adapter": "^1.16.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
