@@ -1,5 +1,4 @@
 import { fetchWorkflows } from '../models/NWC';
-
 import { fillTable } from '../views/WorkflowTableView';
 import { disableLoading, enableNormal } from '../views/SearchBtnView';
 
