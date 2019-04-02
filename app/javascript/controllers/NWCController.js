@@ -16,14 +16,14 @@ export const removeNWCKey = ({ target }) => {
 /**
  * Check the name and key input to disable the confirm button when they are empty
  */
-const checkInput = () => {
+export const checkInputListener = () => {
   const name = $(ADD_NWC_NAME_ID).val().trim();
   const key = $(ADD_NWC_KEY_ID).val().trim();
   if (name !== '' && key !== '') enableSaveBtn();
   else disableSaveBtn();
 };
 
-const addNwcApi = () => {
+export const addNwcApiListener = () => {
   const nameElement = $(ADD_NWC_NAME_ID);
   const keyElement = $(ADD_NWC_KEY_ID);
   addNWCApi(nameElement.val(), keyElement.val());
@@ -52,10 +52,8 @@ export const initialNWC = () => {
   // Add listeners
   $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
   $(ADD_NWC_BTN_ID).on('click', toggleAddModal);
-  $(ADD_NWC_NAME_ID).on('input', checkInput);
-  $(ADD_NWC_KEY_ID).on('input', checkInput);
-  $(ADD_NWC_CONFIRM_BTN_ID).on('click', addNwcApi);
+  $(ADD_NWC_NAME_ID).on('input', checkInputListener);
+  $(ADD_NWC_KEY_ID).on('input', checkInputListener);
+  $(ADD_NWC_CONFIRM_BTN_ID).on('click', addNwcApiListener);
   $(DELETE_CONFIRM_BTN_ID).on('click', confirmRm);
 };
-
-export const addNWCKey = () => {};
