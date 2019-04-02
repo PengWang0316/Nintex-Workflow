@@ -21,7 +21,7 @@ const action = (fn) => {
  * will do nothing if the active is empty (Draft workflows).
  * Also will update the column to reflect the new active status.
  */
-const toggleActivateAct = () => action((workflowId, tenant, rowElement) => {
+export const toggleActivateAct = () => action((workflowId, tenant, rowElement) => {
   // console.log('activate ', workflowId, fetchNWCApis()[tenant]);
   const activeElement = rowElement.childNodes[6];
   if (activeElement.innerText !== '') {
@@ -33,16 +33,16 @@ const toggleActivateAct = () => action((workflowId, tenant, rowElement) => {
   }
 });
 
-const exportAct = () => action((workflowId, tenant, rowElement) => {
+export const exportAct = () => action((workflowId, tenant, rowElement) => {
   const statusElement = rowElement.childNodes[5];
   if (statusElement.innerText === 'Draft') exportDraftAct(workflowId, tenant);
   else exportPublishedAct(workflowId, tenant);
   toggleAlert('The workflow has been exported successfully');
 });
 
-const moveAct = () => action((workflowId, tenant) => toggleAlert('No implement yet!'));
+export const moveAct = () => action((workflowId, tenant) => toggleAlert('No implement yet!'));
 
-const deleteAct = () => action((workflowId, tenant, rowElement) => {
+export const deleteAct = () => action((workflowId, tenant, rowElement) => {
   removeRow(rowElement.childNodes[9].innerText);
   deleteWorkflowAct(workflowId, tenant);
   toggleAlert('The workflow has been deleted successfully');
