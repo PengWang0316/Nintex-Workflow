@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER } from '../config';
 
-const TENANT_REGEXP = /&tenant=(.+)/;
+// const TENANT_REGEXP = /&tenant=(.+)/;
 
 /**
  * The url and api key pair will be retrieved from the LocalStorage
@@ -80,7 +80,8 @@ export const fetchWorkflows = () => {
   return axios.all(axiosArr).then((result) => {
     const data = [];
     result.forEach((item) => {
-      const tenant = TENANT_REGEXP.exec(item.request.responseURL)[1];
+      // const tenant = TENANT_REGEXP.exec(item.request.responseURL)[1];
+      const { tenant } = item.config.params;
       item.data.workflows.forEach((row) => {
         row.tenant = tenant;
         data.push(row);
