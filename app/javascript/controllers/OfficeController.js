@@ -3,13 +3,13 @@ import {
   initialOfficeApiView, toggleRemoveAlert, toggleAddModal, disableSaveBtn, enableSaveBtn, appendBadge,
 } from '../views/OfficeApiView';
 import {
-  DELETE_CONFIRM_OBTN_ID, ADD_OFFICE_BTN_ID, ADD_OFFICE_NAME_ID,
+  DELETE_CONFIRM_BTN_ID, ADD_OFFICE_BTN_ID, ADD_OFFICE_NAME_ID,
   ADD_OFFICE_KEY_ID, ADD_OFFICE_CONFIRM_BTN_ID, RM_OFFICE_BTN_CLASS, ADD_OFFICE_COOKIE_ID,
 } from '../config';
 
 export const removeOfficeKey = ({ target }) => {
   // Bind the delete confirm button with the right key
-  $(DELETE_CONFIRM_OBTN_ID).attr('data-key', $(target).attr('data-key'));
+  $(DELETE_CONFIRM_BTN_ID).attr('data-key', $(target).attr('data-key'));
   toggleRemoveAlert();
 };
 
@@ -28,7 +28,7 @@ export const addNwcApiListener = () => {
   const nameElement = $(ADD_OFFICE_NAME_ID);
   const keyElement = $(ADD_OFFICE_KEY_ID);
   const cookieElement = $(ADD_OFFICE_COOKIE_ID);
-  addOfficeApi(nameElement.val(), keyElement.val());
+  addOfficeApi(nameElement.val(), keyElement.val(), cookieElement.val());
   appendBadge(nameElement.val());
 
   // Add remove button listener
@@ -43,7 +43,7 @@ export const addNwcApiListener = () => {
 
 export const confirmRm = ({ target }) => {
   const key = $(target).attr('data-key');
-  $(`#office_${key}`).detach();
+  $(`#office_${key.replace(/\./g, '\\.')}`).detach();
   toggleRemoveAlert();
   removeOfficeApi(key);
 };
@@ -56,6 +56,7 @@ export const initialOffice = () => {
   $(ADD_OFFICE_BTN_ID).on('click', toggleAddModal);
   $(ADD_OFFICE_NAME_ID).on('input', checkInputListener);
   $(ADD_OFFICE_KEY_ID).on('input', checkInputListener);
+  $(ADD_OFFICE_COOKIE_ID).on('input', checkInputListener);
   $(ADD_OFFICE_CONFIRM_BTN_ID).on('click', addNwcApiListener);
-  $(DELETE_CONFIRM_OBTN_ID).on('click', confirmRm);
+  $(DELETE_CONFIRM_BTN_ID).on('click', confirmRm);
 };

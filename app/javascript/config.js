@@ -27,11 +27,11 @@ export const ALERT_ELEMENT_ID = '#alert';
 
 export const DELETE_CONFIRM_OBTN_ID = '#deleteConfirmOBtn';
 export const ADD_OFFICE_BTN_ID = '#addOfficeBtn';
-export const ADD_OFFICE_NAME_ID = '#addOfficecName';
+export const ADD_OFFICE_NAME_ID = '#addOfficeName';
 export const ADD_OFFICE_KEY_ID = '#addOfficeKey';
 export const ADD_OFFICE_CONFIRM_BTN_ID = '#addOfficeConfirmBtn';
 export const RM_OFFICE_BTN_CLASS = 'removeOfficeBtnClass';
 export const OFFICE_ID = '#offiecContainer';
 export const ADD_OFFICE_API_ID = '#addOfficeApi';
-export const ADD_OFFICE_COOKIE_ID = '#addOfficecCookie';
+export const ADD_OFFICE_COOKIE_ID = '#addOfficeCookie';
 export const OFFICE_URL_API_KEY = 'nintex-office-url-key';
