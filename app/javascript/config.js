@@ -35,3 +35,8 @@ export const OFFICE_ID = '#offiecContainer';
 export const ADD_OFFICE_API_ID = '#addOfficeApi';
 export const ADD_OFFICE_COOKIE_ID = '#addOfficeCookie';
 export const OFFICE_URL_API_KEY = 'nintex-office-url-key';
+
+export const NWC_PLATFORM = 'nwc';
+export const OFFICE_PLATFORM = 'office';
+export const NWC_ICON = '/assets/images/NwcPlatform.png';
+export const OFFICE_ICON = '/assets/images/OfficePlatform.png';
