@@ -1,4 +1,5 @@
 import { initialNWC } from './controllers/NWCController';
+import { initialOffice } from './controllers/OfficeController';
 import searchWorkflows from './controllers/SearchWorkFlowController';
 import { initialActionBtns } from './controllers/WorkflowActionController';
 import { TOOLTIP_DATA_TOGGLE, SEARCH_BTN_ID, NAME_FILTER_ID } from './config';
@@ -9,6 +10,8 @@ const handler = () => {
   $(TOOLTIP_DATA_TOGGLE).tooltip();
   // Initialize the NWC panel
   initialNWC();
+  // Initialize the Office 365 panel
+  initialOffice();
   initialActionBtns();
 
   // Initialize an empty table
