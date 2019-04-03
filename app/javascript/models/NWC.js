@@ -78,7 +78,7 @@ export const fetchWorkflows = () => {
     {
       headers: { authorization: `${BEARER_HEADER} ${urlKeys[key]}` },
       params: {
-        limit: '1000', sortBy: 'lastModified', sortOrder: 'desc', tenant: key,
+        limit: '1000', sortBy: 'created', sortOrder: 'desc', tenant: key,
       },
     },
   ));

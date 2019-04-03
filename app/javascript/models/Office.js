@@ -81,7 +81,7 @@ export const fetchWorkflows = () => {
       },
       crossdomain: true,
       params: {
-        limit: '1000', sortBy: 'lastModified', sortOrder: 'desc', tenant: key,
+        limit: '1000', sortBy: 'created', sortOrder: 'desc', tenant: key,
       },
     },
   ));
