@@ -33,6 +33,10 @@ export const toggleActivateAct = () => action((workflowId, tenant, rowElement) =
   }
 });
 
+export const deactivate = (workflowId, tenant) => {
+  deactivateAct(workflowId, tenant);
+};
+
 export const exportAct = () => action((workflowId, tenant, rowElement) => {
   const statusElement = rowElement.childNodes[8];
   if (statusElement.innerText === 'Draft') exportDraftAct(workflowId, tenant);

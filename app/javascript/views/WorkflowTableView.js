@@ -5,6 +5,7 @@ import {
   NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID,
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
+import { deactivate } from '../controllers/WorkflowActionController';
 
 let table;
 const nameFilterInput = $(NAME_FILTER_ID);
@@ -110,5 +111,12 @@ export const removeRow = (rowNum) => {
 };
 
 export const addNewData = (data) => {
-  if (table) data.reverse().forEach(row => table.addRow(row, true));
+  if (table) data.reverse().forEach((rowData) => {
+    table.addRow(rowData, true);
+    const row = table.getRow(0);
+    if (row._row.data.status === 'Published') {
+      deactivate(row._row.data.workflowId, row._row.data.tenant);
+      row.update({ active: 'false' });
+    }
+  });
 };
