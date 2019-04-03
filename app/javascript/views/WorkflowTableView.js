@@ -6,6 +6,8 @@ import {
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
 import { deactivate } from '../controllers/WorkflowActionController';
+import { activateAct, deactivateAct } from '../models/NWC';
+import { toggleAlert } from './AlertView';
 
 let table;
 const nameFilterInput = $(NAME_FILTER_ID);
@@ -85,17 +87,31 @@ export const fillTable = (data) => {
     data,
     layout: 'fitColumns', // fit columns to width of table (optional)
     columns,
-    rowClick: (e, row) => { // Handle showing secondary information modal
+    rowClick: ({ target }, row) => { // Handle showing secondary information modal
       // Disable the click on the first column
-      if (e.target.tagName === 'INPUT' || e.target.firstChild.tagName === 'INPUT') return;
-      const {
-        type, eventType, tenant, description,
-      } = JSON.parse(row._row.data.secondaryInfo);
-      $(SECONDAY_INFO_EVENTTYPE_ID).text(eventType);
-      $(SECONDAY_INFO_TYPE_ID).text(type);
-      $(SECONDAY_INFO_TENANT_ID).text(tenant);
-      $(SECONDAY_INFO_DESCRIPTION_ID).text(description);
-      $(SECONDAY_INFO_ID).modal('toggle');
+      if (target.tagName === 'INPUT' || target.firstChild.tagName === 'INPUT') return;
+      if (target.attributes[2].nodeValue === 'active') {
+        // Active or deactive when click on the Active column
+        if (target.innerText === 'true') {
+          deactivateAct(row._row.data.workflowId, row._row.data.tenant);
+          row.update({ active: 'false' });
+          toggleAlert('The workflow has been deactivated successfully');
+        } else if (target.innerText === 'false') {
+          activateAct(row._row.data.workflowId, row._row.data.tenant);
+          row.update({ active: 'true' });
+          toggleAlert('The workflow has been activated successfully');
+        }
+      } else {
+        // Show the secondary info modal
+        const {
+          type, eventType, tenant, description,
+        } = JSON.parse(row._row.data.secondaryInfo);
+        $(SECONDAY_INFO_EVENTTYPE_ID).text(eventType);
+        $(SECONDAY_INFO_TYPE_ID).text(type);
+        $(SECONDAY_INFO_TENANT_ID).text(tenant);
+        $(SECONDAY_INFO_DESCRIPTION_ID).text(description);
+        $(SECONDAY_INFO_ID).modal('toggle');
+      }
     },
   });
 };
