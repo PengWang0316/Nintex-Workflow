@@ -41,6 +41,7 @@ export const NWC_PLATFORM = 'nwc';
 export const OFFICE_PLATFORM = 'office';
 export const NWC_ICON = '/assets/images/NwcPlatform.png';
 export const OFFICE_ICON = '/assets/images/OfficePlatform.png';
+export const NEW_ICON = '/assets/images/NewIcon.png';
 export const SECONDAY_INFO_ID = '#secondaryInfo';
 export const SECONDAY_INFO_EVENTTYPE_ID = '#siEventType';
 export const SECONDAY_INFO_TYPE_ID = '#siType';

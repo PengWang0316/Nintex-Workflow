@@ -1,7 +1,7 @@
 import Tabulator from 'tabulator-tables';
 
 import {
-  WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME,
+  WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME, NEW_ICON,
   NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID,
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
@@ -37,6 +37,7 @@ const columns = [
     headerSort: true,
     sorter: 'string',
     formatter(cell) {
+      if (cell._cell.value === NEW_ICON) return `<img src="${NEW_ICON}" alt="new workflow" class="platform-icon" />`;
       return `<img src="${cell._cell.value === NWC_PLATFORM ? NWC_ICON : OFFICE_ICON}" alt="${cell._cell.value === NWC_PLATFORM ? 'NWC' : 'Office 365'}" class="platform-icon" />`;
     },
   },
@@ -132,10 +133,13 @@ export const addNewData = (data) => {
   if (table) data.reverse().forEach((rowData) => {
     table.addRow(rowData, true);
     const row = table.getRow(0);
+    // Deactive if it is a published workflow
     if (row._row.data.status === 'Published') {
       deactivate(row._row.data.workflowId, row._row.data.tenant);
       row.update({ active: 'false' });
     }
+    // update the platform icon to a new icon
+    row.update({ platform: NEW_ICON });
     // Update the background color
     // This is like a hack way to do this :)
     // TODO: Change it
