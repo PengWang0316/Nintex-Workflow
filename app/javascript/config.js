@@ -45,3 +45,4 @@ export const SECONDAY_INFO_EVENTTYPE_ID = '#siEventType';
 export const SECONDAY_INFO_TYPE_ID = '#siType';
 export const SECONDAY_INFO_TENANT_ID = '#siTenant';
 export const SECONDAY_INFO_DESCRIPTION_ID = '#siDescription';
+export const NWC_DOMAIN_NAME = '.workflowcloud.com/dashboard/designer';

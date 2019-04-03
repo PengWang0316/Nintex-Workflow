@@ -4,6 +4,10 @@ main {
   height: 100%;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 .float-button {
   position: -webkit-sticky;
   position: sticky;
