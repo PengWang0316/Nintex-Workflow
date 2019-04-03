@@ -36,3 +36,8 @@ main {
   height: 40px;
   display: none;
 }
+
+.platform-icon {
+  width: 25px;
+  height: 25px;
+}

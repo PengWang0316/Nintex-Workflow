@@ -1,6 +1,9 @@
 import Tabulator from 'tabulator-tables';
 
-import { WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME } from '../config';
+import {
+  WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME,
+  NWC_PLATFORM, NWC_ICON, OFFICE_ICON,
+} from '../config';
 
 let table;
 const nameFilterInput = $(NAME_FILTER_ID);
@@ -18,7 +21,19 @@ const columns = [
       // cell - the cell component
       // formatterParams - parameters set for the column
       // onRendered - function to call when the formatter has been rendered
-      return `<input class="form-check-input" type="radio" name="${TABLE_RADIO_NAME}" value="${cell._cell.value}">`; // return the contents of the cell;
+      return `<input class="form-check-input" type="radio" name="${TABLE_RADIO_NAME}" value="${cell._cell.value}" />`; // return the contents of the cell;
+    },
+  },
+  {
+    title: '',
+    field: 'platform',
+    align: 'center',
+    width: 40,
+    resizable: false,
+    headerSort: true,
+    sorter: 'string',
+    formatter(cell) {
+      return `<img src="${cell._cell.value === NWC_PLATFORM ? NWC_ICON : OFFICE_ICON}" alt="${cell._cell.value === NWC_PLATFORM ? 'NWC' : 'Office 365'}" class="platform-icon" />`;
     },
   },
   {

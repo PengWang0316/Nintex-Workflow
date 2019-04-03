@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import { NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER } from '../config';
+import {
+  NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER, NWC_PLATFORM,
+} from '../config';
 
 // const TENANT_REGEXP = /&tenant=(.+)/;
 
@@ -42,6 +44,7 @@ const parseDataToArray = (data) => {
     const isPublished = Object.keys(item.published).length !== 0;
     return {
       id: index,
+      platform: item.platform,
       workflowId: item.id,
       tenant: item.tenant,
       name: item.name,
@@ -84,6 +87,7 @@ export const fetchWorkflows = () => {
       const { tenant } = item.config.params;
       item.data.workflows.forEach((row) => {
         row.tenant = tenant;
+        row.platform = NWC_PLATFORM;
         data.push(row);
       });
     });
