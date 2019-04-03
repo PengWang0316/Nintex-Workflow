@@ -41,7 +41,7 @@ export const addNwcApiListener = () => {
 
 export const confirmRm = ({ target }) => {
   const key = $(target).attr('data-key');
-  $(`#nwc_${key}`).detach();
+  $(`#nwc_${key.replace(/\./g, '\\.')}`).detach();
   toggleRemoveAlert();
   removeNWCApi(key);
 };
