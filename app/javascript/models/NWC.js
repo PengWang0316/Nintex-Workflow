@@ -4,6 +4,9 @@ import {
   NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER, NWC_PLATFORM,
 } from '../config';
 
+// Use this to keep the last created dates for all tenant
+const lastCreatedDates = {};
+
 // const TENANT_REGEXP = /&tenant=(.+)/;
 
 /**
@@ -38,6 +41,12 @@ export const removeNWCApi = (tenant) => {
   delete nwc[tenant];
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };
+
+// export const fetchLastDate = () => JSON.parse(localStorage.getItem(LAST_CREATED_DATE_KEY));
+
+// const setLastDate = (tenant, date) => {
+//   let lastDates = 1
+// };
 
 const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
 const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
@@ -83,20 +92,47 @@ export const fetchWorkflows = () => {
     },
   ));
 
-  // return axios.all(axiosArr).then(axios.spread((acct, perms) => {
-  //   console.log(acct);
-  //   console.log(perms);
-  // }));
-
   return axios.all(axiosArr).then((result) => {
     const data = [];
     result.forEach((item) => {
-      // const tenant = TENANT_REGEXP.exec(item.request.responseURL)[1];
       const { tenant } = item.config.params;
+      const lastDate = item.data.workflows[0].published.created || item.data.workflows[0].draft.created;
+      lastCreatedDates[tenant] = new Date(lastDate);
       item.data.workflows.forEach((row) => {
         row.tenant = tenant;
         data.push(row);
       });
+    });
+    return parseDataToArray(data);
+  });
+};
+
+export const fetchNewWorkflows = () => {
+  const urlKeys = fetchNWCApis();
+  const axiosArr = Object.keys(urlKeys).map(key => axios.get(
+    NWC_LIST_WORKFLOWS_API,
+    {
+      headers: { authorization: `${BEARER_HEADER} ${urlKeys[key]}` },
+      params: {
+        limit: '1000', sortBy: 'created', sortOrder: 'desc', tenant: key,
+      },
+    },
+  ));
+  // Return an array just includes new workflow and update the last create dates
+  return axios.all(axiosArr).then((result) => {
+    const data = [];
+    result.forEach((item) => {
+      const { tenant } = item.config.params;
+      const { workflows } = item.data;
+      for (let i = 0; i < workflows.length; i++) {
+        if ((workflows[i].published.created && new Date(workflows[i].published.created) <= lastCreatedDates[tenant])
+          || (workflows[i].draft.created && new Date(workflows[i].draft.created) <= lastCreatedDates[tenant])) break;
+        workflows[i].tenant = tenant;
+        data.push(workflows[i]);
+      }
+      // Update the last create date
+      const lastDate = workflows[0].published.created || workflows[0].draft.created;
+      lastCreatedDates[tenant] = new Date(lastDate);
     });
     return parseDataToArray(data);
   });
@@ -136,7 +172,6 @@ export const exportPublishedAct = (workflowId, tenant) => axios.post(
 
 export const deleteWorkflowAct = (workflowId, tenant) => axios.delete(
   `${NWC_LIST_WORKFLOWS_API}/${workflowId}`,
-  {},
   {
     headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
   },

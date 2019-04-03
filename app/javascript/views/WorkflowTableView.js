@@ -108,3 +108,7 @@ export const updateActiveColumn = (activeElement) => {
 export const removeRow = (rowNum) => {
   if (table) table.deleteRow(rowNum);
 };
+
+export const addNewData = (data) => {
+  if (table) data.reverse().forEach(row => table.addRow(row, true));
+};

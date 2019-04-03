@@ -48,3 +48,6 @@ export const SECONDAY_INFO_TENANT_ID = '#siTenant';
 export const SECONDAY_INFO_DESCRIPTION_ID = '#siDescription';
 export const NWC_DOMAIN_NAME = '.workflowcloud.com/dashboard/designer';
 export const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+export const AUTO_FETCHING_BTN_ID = '#fetchingSwitch';
+export const FETCHING_INTERVAL = 30000;
+export const LAST_CREATED_DATE_KEY = 'nwc_last_create_date';
