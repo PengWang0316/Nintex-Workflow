@@ -118,5 +118,9 @@ export const addNewData = (data) => {
       deactivate(row._row.data.workflowId, row._row.data.tenant);
       row.update({ active: 'false' });
     }
+    // Update the background color
+    // This is like a hack way to do this :)
+    // TODO: Change it
+    $($('.tabulator-row')[0]).addClass('newRow');
   });
 };

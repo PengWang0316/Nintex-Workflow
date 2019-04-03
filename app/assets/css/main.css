@@ -50,3 +50,7 @@ a:hover {
   margin: 10px 0 5px 0;
   font-weight: bold
 }
+
+.newRow {
+  background-color:#e7ffd8;
+}
