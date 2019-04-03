@@ -58,17 +58,17 @@ const parseDataToArray = (data) => {
       name: item.name,
       status: isPublished ? 'Published' : 'Draft',
       active: isPublished ? item.published.isActive : '',
-      lastEdited: isPublished
-        ? new Date(item.published.lastPublished)
-        : new Date(item.draft.lastModified),
+      created: isPublished
+        ? new Date(item.published.created)
+        : new Date(item.draft.created),
       editedBy: isPublished ? item.published.author.name : item.draft.author.name,
       secondaryInfo: JSON.stringify({
         eventType, type, description, tenant: item.tenant,
       }),
     };
   });
-  // Sort by lastEdited data
-  return arr.sort((prev, next) => next.lastEdited - prev.lastEdited);
+  // Sort by created data
+  return arr.sort((prev, next) => next.created - prev.created);
 };
 
 export const fetchWorkflows = () => {

@@ -47,7 +47,7 @@ const columns = [
     title: 'Author', field: 'editedBy', align: 'left', sorter: 'string',
   },
   {
-    title: 'Last Edited', field: 'lastEdited', align: 'left', sorter: 'date', formatter: 'datetime',
+    title: 'Created', field: 'created', align: 'left', sorter: 'date', formatter: 'datetime',
   },
   {
     title: 'Health Scores', field: 'healthScores', align: 'left', sorter: 'string',

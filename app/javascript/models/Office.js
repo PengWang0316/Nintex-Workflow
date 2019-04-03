@@ -60,7 +60,7 @@ const parseDataToArray = (data) => {
       name: item.name,
       status: isPublished ? 'Published' : 'Draft',
       active: '',
-      lastEdited: '',
+      created: '',
       editedBy: '',
       secondaryInfo: JSON.stringify({
         eventType, type, description, tenant: item.tenant,
