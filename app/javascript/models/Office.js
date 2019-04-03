@@ -1,4 +1,9 @@
-import { OFFICE_URL_API_KEY, BEARER_HEADER } from '../config';
+import axios from 'axios';
+
+import {
+  OFFICE_URL_API_KEY, OFFICE_LIST_WORKFLOWS_API,
+  OFFICE_PLATFORM, CORS_PROXY,
+} from '../config';
 
 // const TENANT_REGEXP = /&tenant=(.+)/;
 
@@ -34,4 +39,62 @@ export const removeOfficeApi = (tenant) => {
   const office = fetchOfficeApis();
   delete office[tenant];
   localStorage.setItem(OFFICE_URL_API_KEY, JSON.stringify(office));
+};
+
+const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
+const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
+
+const parseDataToArray = (data) => {
+  const arr = data.map((item, index) => {
+    const isPublished = item.isPublished === true;
+    const eventType = '';
+    const type = '';
+    const { description } = item;
+
+    return {
+      id: index,
+      platform: OFFICE_PLATFORM,
+      tenant: item.tenant,
+      workflowId: item.id,
+      department: getRandomFakeDepartment(),
+      name: item.name,
+      status: isPublished ? 'Published' : 'Draft',
+      active: '',
+      lastEdited: '',
+      editedBy: '',
+      secondaryInfo: JSON.stringify({
+        eventType, type, description, tenant: item.tenant,
+      }),
+    };
+  });
+  return arr;
+};
+
+export const fetchWorkflows = () => {
+  const urlKeys = fetchOfficeApis();
+  const axiosArr = Object.keys(urlKeys).map(key => axios.get(
+    `${CORS_PROXY}https://${key}${OFFICE_LIST_WORKFLOWS_API}`,
+    {
+      headers: {
+        Authorization: urlKeys[key][1],
+        'API-Key': urlKeys[key][0],
+      },
+      crossdomain: true,
+      params: {
+        limit: '1000', sortBy: 'lastModified', sortOrder: 'desc', tenant: key,
+      },
+    },
+  ));
+
+  return axios.all(axiosArr).then((result) => {
+    const data = [];
+    result.forEach((item) => {
+      const { tenant } = item.config.params;
+      item.data.data.forEach((row) => {
+        row.tenant = tenant;
+        data.push(row);
+      });
+    });
+    return parseDataToArray(data);
+  });
 };

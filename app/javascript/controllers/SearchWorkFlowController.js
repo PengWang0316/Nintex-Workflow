@@ -6,9 +6,9 @@ import { disableLoading, enableNormal } from '../views/SearchBtnView';
 export const searchWorkflows = async () => {
   disableLoading();
   const nwcData = await fetchWorkflows();
-  // const officeData = await fetchOfficeWorkflows();
-  // fillTable([...nwcData, ...officeData]);
-  fillTable(nwcData);
+  const officeData = await fetchOfficeWorkflows();
+  fillTable([...nwcData, ...officeData]);
+  // fillTable(nwcData);
   enableNormal();
 };
 

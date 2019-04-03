@@ -25,6 +25,7 @@ export const MOVE_ACT_ID = '#moveAct';
 export const DELETE_ACT_ID = '#deleteAct';
 export const ALERT_ELEMENT_ID = '#alert';
 
+export const OFFICE_LIST_WORKFLOWS_API = '/api/v1/workflows';
 export const DELETE_CONFIRM_OBTN_ID = '#deleteConfirmOBtn';
 export const ADD_OFFICE_BTN_ID = '#addOfficeBtn';
 export const ADD_OFFICE_NAME_ID = '#addOfficeName';
@@ -46,3 +47,4 @@ export const SECONDAY_INFO_TYPE_ID = '#siType';
 export const SECONDAY_INFO_TENANT_ID = '#siTenant';
 export const SECONDAY_INFO_DESCRIPTION_ID = '#siDescription';
 export const NWC_DOMAIN_NAME = '.workflowcloud.com/dashboard/designer';
+export const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
