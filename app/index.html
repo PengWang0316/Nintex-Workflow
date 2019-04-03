@@ -49,25 +49,33 @@
         </div>
       </div>
 
-      <div class="float-right mt-4 d-flex">
-        <div class="input-group input-group-sm mb-3 filter-div">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Filter Name</span>
-          </div>
-          <input id="nameFilter" type="text" class="form-control filter-input" placeholder="Enter name to filter" />
+      <div class="float-right mt-4">
+        <div class="d-flex justify-content-end custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="fetchingSwitch">
+          <label class="custom-control-label" for="fetchingSwitch">Auto Fetching</label>
         </div>
-        <div class="dropdown ml-3">
-          <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions
-          </button>
-          <div class="dropdown-menu" aria-labelledby="actionBtn">
-            <a class="dropdown-item" href="#" id="activateAct">Activate/Deactivate</a>
-            <a class="dropdown-item" href="#" id="exportAct">Export</a>
-            <a class="dropdown-item" href="#" id="moveAct">Move</a>
-            <a class="dropdown-item delete-act" href="#" id="deleteAct">Delete</a>
+        
+        <div class="mt-2 d-flex">
+          <div class="input-group input-group-sm mb-3 filter-div">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Filter Name</span>
+            </div>
+            <input id="nameFilter" type="text" class="form-control filter-input" placeholder="Enter name to filter" />
+          </div>
+          <div class="dropdown ml-3">
+            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="actionBtn">
+              <a class="dropdown-item" href="#" id="activateAct">Activate/Deactivate</a>
+              <a class="dropdown-item" href="#" id="exportAct">Export</a>
+              <a class="dropdown-item" href="#" id="moveAct">Move</a>
+              <a class="dropdown-item delete-act" href="#" id="deleteAct">Delete</a>
+            </div>
           </div>
         </div>
       </div>
+
       <!-- API key panel end -->
 
       <div id="workflowTable"></div>
