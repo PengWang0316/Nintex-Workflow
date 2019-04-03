@@ -25,7 +25,7 @@
     <noscript>This site requires JavaScript to work. Please change to a browser that supports JavaScript or turn on JavaScript in the setting.</noscript>
 
     <main>
-
+      <!-- API key panel -->
       <div class="container">
         <div class="row">
           <div class="col-md mb-3">
@@ -42,7 +42,7 @@
               <div class="card-header">Office 365 API Keys</div>
               <div id="offiecContainer" class="card-body"></div>
               <div class="d-flex flex-row-reverse">
-                  <button id="addNwcBtn" type="button" class="btn btn-outline-secondary btn-sm mr-3 mb-3">Add URL</button>
+                  <button id="addOfficeBtn" type="button" class="btn btn-outline-secondary btn-sm mr-3 mb-3">Add URL</button>
               </div>
             </div>
           </div>
@@ -68,11 +68,13 @@
           </div>
         </div>
       </div>
+      <!-- API key panel end -->
 
       <div id="workflowTable"></div>
       <div class="alert alert-success text-center" role="alert" id="alert"></div>
     </main>
 
+    <!-- Remove alert modal -->
     <div id="rmAlert" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -92,7 +94,9 @@
         </div>
       </div>
     </div>
+    <!-- Remove alert modal end -->
 
+    <!-- Add NWC API modal -->
     <div id="addNwcApi" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -121,6 +125,42 @@
         </div>
       </div>
     </div>
+    <!-- Add NWC API modal end -->
+
+    <!-- Add Office 365 API modal -->
+    <div id="addOfficeApi" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add a new key for Office 365</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="addOfficecName">Office 365 Endpoint</label>
+                  <input type="text" class="form-control" id="addOfficecName" placeholder="Enter an Office 365 Endpoint">
+                </div>
+                <div class="form-group">
+                  <label for="addOfficeKey">Api key</label>
+                  <input type="text" class="form-control" id="addOfficeKey" placeholder="Enter Api key">
+                </div>
+                <div class="form-group">
+                  <label for="addOfficeCookie">Authorization Cookie</label>
+                  <textarea class="form-control" id="addOfficeCookie" rows="3" placeholder="Enter an authorization cookie"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="addOfficeConfirmBtn" disabled >Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Add Office 365 API modal end -->
 
     <button id="searchBtn" type="button" class="btn btn-secondary float-button" data-toggle="tooltip" data-placement="top" title="Search all workflow"><img id="searchImg" src="/assets/images/search.png" alt="search" /></button>
     
