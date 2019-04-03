@@ -86,6 +86,8 @@ export const fillTable = (data) => {
     layout: 'fitColumns', // fit columns to width of table (optional)
     columns,
     rowClick: (e, row) => { // Handle showing secondary information modal
+      // Disable the click on the first column
+      if (e.target.tagName === 'INPUT' || e.target.firstChild.tagName === 'INPUT') return;
       const {
         type, eventType, tenant, description,
       } = JSON.parse(row._row.data.secondaryInfo);
