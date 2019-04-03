@@ -12,7 +12,7 @@ const action = (fn) => {
   const radioElement = $(`input[name='${TABLE_RADIO_NAME}']:checked`);
   const workflowId = radioElement.val();
   const rowElement = radioElement.parent().parent()[0];
-  if (workflowId) fn(workflowId, rowElement.childNodes[1].innerText, rowElement);
+  if (workflowId) fn(workflowId, rowElement.childNodes[11].innerText, rowElement);
 };
 
 /**
@@ -23,7 +23,7 @@ const action = (fn) => {
  */
 export const toggleActivateAct = () => action((workflowId, tenant, rowElement) => {
   // console.log('activate ', workflowId, fetchNWCApis()[tenant]);
-  const activeElement = rowElement.childNodes[6];
+  const activeElement = rowElement.childNodes[7];
   if (activeElement.innerText !== '') {
     if (activeElement.innerText === 'false') activateAct(workflowId, tenant);
     else deactivateAct(workflowId, tenant);
@@ -34,7 +34,7 @@ export const toggleActivateAct = () => action((workflowId, tenant, rowElement) =
 });
 
 export const exportAct = () => action((workflowId, tenant, rowElement) => {
-  const statusElement = rowElement.childNodes[5];
+  const statusElement = rowElement.childNodes[8];
   if (statusElement.innerText === 'Draft') exportDraftAct(workflowId, tenant);
   else exportPublishedAct(workflowId, tenant);
   toggleAlert('The workflow has been exported successfully');

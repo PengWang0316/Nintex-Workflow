@@ -2,7 +2,8 @@ import Tabulator from 'tabulator-tables';
 
 import {
   WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME,
-  NWC_PLATFORM, NWC_ICON, OFFICE_ICON,
+  NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID,
+  SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
 
 let table;
@@ -37,32 +38,39 @@ const columns = [
     },
   },
   {
-    title: 'Tenant', field: 'tenant', align: 'left', sorter: 'string',
-  },
-  {
     title: 'Name', field: 'name', align: 'left', sorter: 'string',
   },
   {
-    title: 'Event Type', field: 'eventType', align: 'left', sorter: 'string',
+    title: 'Department', field: 'department', align: 'left', sorter: 'string',
   },
   {
-    title: 'Type', field: 'type', align: 'left', sorter: 'string',
-  },
-  {
-    title: 'Status', field: 'status', align: 'left', sorter: 'string',
-  },
-  {
-    title: 'Active', field: 'active', align: 'left', sorter: 'string',
+    title: 'Author', field: 'editedBy', align: 'left', sorter: 'string',
   },
   {
     title: 'Last Edited', field: 'lastEdited', align: 'left', sorter: 'date', formatter: 'datetime',
   },
   {
-    title: 'Edited By', field: 'editedBy', align: 'left', sorter: 'string',
+    title: 'Health Scores', field: 'healthScores', align: 'left', sorter: 'string',
+  },
+  {
+    title: 'Active', field: 'active', align: 'left', sorter: 'string',
+  },
+  {
+    title: 'Status', field: 'status', align: 'left', sorter: 'string',
   },
   { // A hidden column to track the row number in the table for updating.
     title: '',
     field: 'id',
+    visible: false,
+  },
+  { // A hidden column to keep the secondary info.
+    title: '',
+    field: 'secondaryInfo',
+    visible: false,
+  },
+  { // A hidden column to keep the tenant name.
+    title: '',
+    field: 'tenant',
     visible: false,
   },
 ];
@@ -76,6 +84,16 @@ export const fillTable = (data) => {
     data,
     layout: 'fitColumns', // fit columns to width of table (optional)
     columns,
+    rowClick: (e, row) => { // Handle showing secondary information modal
+      const {
+        type, eventType, tenant, description,
+      } = JSON.parse(row._row.data.secondaryInfo);
+      $(SECONDAY_INFO_EVENTTYPE_ID).text(eventType);
+      $(SECONDAY_INFO_TYPE_ID).text(type);
+      $(SECONDAY_INFO_TENANT_ID).text(tenant);
+      $(SECONDAY_INFO_DESCRIPTION_ID).text(description);
+      $(SECONDAY_INFO_ID).modal('toggle');
+    },
   });
 };
 

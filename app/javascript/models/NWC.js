@@ -39,24 +39,32 @@ export const removeNWCApi = (tenant) => {
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
 };
 
+const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
+const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
+
 const parseDataToArray = (data) => {
   const arr = data.map((item, index) => {
     const isPublished = Object.keys(item.published).length !== 0;
+    const eventType = isPublished ? item.published.eventType.name : item.draft.eventType.name;
+    const type = isPublished ? item.published.publishedType : '';
+    const description = isPublished ? item.published.description : item.draft.description;
+
     return {
       id: index,
-      platform: item.platform,
-      workflowId: item.id,
+      platform: NWC_PLATFORM,
       tenant: item.tenant,
+      workflowId: item.id,
+      department: getRandomFakeDepartment(),
       name: item.name,
-      eventType: isPublished ? item.published.eventType.name : item.draft.eventType.name,
-      type: isPublished ? item.published.publishedType : '',
       status: isPublished ? 'Published' : 'Draft',
       active: isPublished ? item.published.isActive : '',
       lastEdited: isPublished
         ? new Date(item.published.lastPublished)
         : new Date(item.draft.lastModified),
       editedBy: isPublished ? item.published.author.name : item.draft.author.name,
-      description: isPublished ? item.published.description : item.draft.description,
+      secondaryInfo: JSON.stringify({
+        eventType, type, description, tenant: item.tenant,
+      }),
     };
   });
   // Sort by lastEdited data
@@ -87,7 +95,6 @@ export const fetchWorkflows = () => {
       const { tenant } = item.config.params;
       item.data.workflows.forEach((row) => {
         row.tenant = tenant;
-        row.platform = NWC_PLATFORM;
         data.push(row);
       });
     });
