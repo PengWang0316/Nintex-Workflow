@@ -216,6 +216,5 @@ export const fetchHealthScores = (workflowId, tenant) => new Promise(async (reso
     counts.completed += newCount[0];
     counts.failed += newCount[1];
   }
-  console.log(counts);
   resolve(counts);
 });
