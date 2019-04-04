@@ -1,12 +1,12 @@
 import Tabulator from 'tabulator-tables';
 
 import {
-  WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME, NEW_ICON,
+  WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME, NEW_ICON, SCORE_LOADING_ICON,
   NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID,
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
 import { deactivate } from '../controllers/WorkflowActionController';
-import { activateAct, deactivateAct } from '../models/NWC';
+import { activateAct, deactivateAct, fetchHealthScores } from '../models/NWC';
 import { toggleAlert } from './AlertView';
 
 let table;
@@ -54,7 +54,20 @@ const columns = [
     title: 'Created', field: 'created', align: 'left', sorter: 'date', formatter: 'datetime',
   },
   {
-    title: 'Health Scores', field: 'healthScores', align: 'left', sorter: 'string',
+    title: 'Health Scores',
+    field: 'healthScores',
+    align: 'center',
+    // headerSort: true,
+    // sorter: 'number',
+    formatter(cell) {
+      const { status, platform, healthScores } = cell._cell.row.data;
+      if (!healthScores) return status === 'Published' && platform === NWC_PLATFORM ? '<button type="button" class="btn btn-light btn-sm">...</button>' : '';
+      if (healthScores === SCORE_LOADING_ICON) return `<img src=${SCORE_LOADING_ICON} />`;
+      return `
+        <div><span class="badge badge-success mr-1">C ${healthScores.completed}</span><span class="badge badge-danger mr-1">F ${healthScores.failed}</span></div>
+        <div>${healthScores.completed === 0 && healthScores.failed === 0 ? '--' : Math.floor((healthScores.completed / (healthScores.completed + healthScores.failed)) * 100)}%</div>
+      `;
+    },
   },
   {
     title: 'Active', field: 'active', align: 'left', sorter: 'string',
@@ -88,10 +101,16 @@ export const fillTable = (data) => {
     data,
     layout: 'fitColumns', // fit columns to width of table (optional)
     columns,
-    rowClick: ({ target }, row) => { // Handle showing secondary information modal
+    rowClick: async ({ target }, row) => { // Handle showing secondary information modal
       // Disable the click on the first column
       if (target.tagName === 'INPUT' || target.firstChild.tagName === 'INPUT') return;
-      if (target.attributes[2].nodeValue === 'active') {
+      if (target.tagName === 'BUTTON') {
+        // Change button to a loading icon
+        row.update({ healthScores: SCORE_LOADING_ICON });
+        const { workflowId, tenant } = row._row.data;
+        // Fetch and update the health scores
+        row.update({ healthScores: await fetchHealthScores(workflowId, tenant) });
+      } else if (target.attributes[2].nodeValue === 'active') {
         // Active or deactive when click on the Active column
         if (target.innerText === 'true') {
           deactivateAct(row._row.data.workflowId, row._row.data.tenant);

@@ -176,3 +176,46 @@ export const deleteWorkflowAct = (workflowId, tenant) => axios.delete(
     headers: { authorization: `${BEARER_HEADER} ${fetchNWCApis()[tenant]}` },
   },
 );
+
+/**
+ * Count how many Completed and Failed number
+ * @param {array} data is an instance array
+ * @return {array} return a completed and failed pair as [completed, failed]
+ */
+const countStatus = (data) => {
+  const result = [0, 0];
+  data.forEach((item) => {
+    if (item.status === 'Completed') result[0]++;
+    else if (item.status === 'Failed') result[1]++;
+  });
+  return result;
+};
+
+export const fetchHealthScores = (workflowId, tenant) => new Promise(async (resolve, reject) => {
+  const authorization = `${BEARER_HEADER} ${fetchNWCApis()[tenant]}`;
+  const counts = { completed: 0, failed: 0 };
+  // The first fetching
+  let result = await axios.get(
+    `${NWC_LIST_WORKFLOWS_API}/${workflowId}/instances`,
+    {
+      headers: { authorization, 'cache-control': 'no-cache' },
+    },
+  );
+  let newCount = countStatus(result.data.instances);
+  counts.completed += newCount[0];
+  counts.failed += newCount[1];
+
+  while (result.data.instances.length !== 0) {
+    result = await axios.get(
+      result.data.next,
+      {
+        headers: { authorization, 'cache-control': 'no-cache' },
+      },
+    );
+    newCount = countStatus(result.data.instances);
+    counts.completed += newCount[0];
+    counts.failed += newCount[1];
+  }
+  console.log(counts);
+  resolve(counts);
+});
