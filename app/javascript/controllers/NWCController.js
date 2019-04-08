@@ -11,6 +11,8 @@ export const removeNWCKey = ({ target }) => {
   // Bind the delete confirm button with the right key
   $(DELETE_CONFIRM_BTN_ID).attr('data-key', $(target).attr('data-key'));
   toggleRemoveAlert();
+  // Return false to stop propagation for jQuery
+  return false;
 };
 
 /**
