@@ -3,18 +3,16 @@ import { fetchWorkflows as fetchOfficeWorkflows } from '../models/Office';
 import { fillTable } from '../views/WorkflowTableView';
 import { disableLoading, enableNormal } from '../views/SearchBtnView';
 
-export const searchWorkflows = () => {
+export const searchWorkflows = async () => {
   disableLoading();
   // const nwcData = await fetchWorkflows();
   // const officeData = await fetchOfficeWorkflows();
   // fillTable([...nwcData, ...officeData]);
   // enableNormal();
 
-  Promise.all([fetchWorkflows(), fetchOfficeWorkflows()])
-    .then((data) => {
-      fillTable([...data[0], ...data[1]]);
-      enableNormal();
-    });
+  const data = await Promise.all([fetchWorkflows(), fetchOfficeWorkflows()]);
+  fillTable([...data[0], ...data[1]]);
+  enableNormal();
 
   // let nwcData;
   // let officeData;
