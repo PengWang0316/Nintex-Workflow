@@ -10,25 +10,31 @@ export const searchWorkflows = () => {
   // fillTable([...nwcData, ...officeData]);
   // enableNormal();
 
-  let nwcData;
-  let officeData;
-  // Use two promises and manually check result to make sure
-  // the http calls for different sources will be issued parallelly.
-  fetchWorkflows().then((data) => {
-    nwcData = data;
-    if (nwcData && officeData) {
-      fillTable([...nwcData, ...officeData]);
+  Promise.all([fetchWorkflows(), fetchOfficeWorkflows()])
+    .then((data) => {
+      fillTable([...data[0], ...data[1]]);
       enableNormal();
-    }
-  });
+    });
 
-  fetchOfficeWorkflows().then((data) => {
-    officeData = data;
-    if (nwcData && officeData) {
-      fillTable([...nwcData, ...officeData]);
-      enableNormal();
-    }
-  });
+  // let nwcData;
+  // let officeData;
+  // // Use two promises and manually check result to make sure
+  // // the http calls for different sources will be issued parallelly.
+  // fetchWorkflows().then((data) => {
+  //   nwcData = data;
+  //   if (nwcData && officeData) {
+  //     fillTable([...nwcData, ...officeData]);
+  //     enableNormal();
+  //   }
+  // });
+
+  // fetchOfficeWorkflows().then((data) => {
+  //   officeData = data;
+  //   if (nwcData && officeData) {
+  //     fillTable([...nwcData, ...officeData]);
+  //     enableNormal();
+  //   }
+  // });
 };
 
 export default searchWorkflows;
