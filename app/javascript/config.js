@@ -53,3 +53,6 @@ export const AUTO_FETCHING_BTN_ID = '#fetchingSwitch';
 export const FETCHING_INTERVAL = 60000;
 export const LAST_CREATED_DATE_KEY = 'nwc_last_create_date';
 export const SCORE_LOADING_ICON = '/assets/images/ScoreLoading.svg';
+
+const AWS_API_BASE = 'https://uhvp3s4kca.execute-api.us-west-2.amazonaws.com/dev/';
+export const FETCH_NWC_HEALTH_SCORE = `${AWS_API_BASE}nwcworkflows`;
