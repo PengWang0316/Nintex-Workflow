@@ -61,11 +61,11 @@ const parseDataToArray = (data) => {
     const authorId = isPublished ? item.published.author.id : item.draft.author.id;
     const authorEmail = isPublished ? item.published.author.email : item.draft.author.email;
     const authorName = isPublished ? item.published.author.name : item.draft.author.name;
-    const publishedType = isPublished ? item.published.publishedType : '';
-    const publishedId = isPublished ? item.published.id : '';
+    const publishedType = isPublished ? item.published.publishedType : null;
+    const publishedId = isPublished ? item.published.id : null;
     const eventType = isPublished ? item.published.eventType : item.draft.eventType;
     const eventConfiguration = isPublished ? item.published.eventConfiguration : item.draft.eventConfiguration;
-    const lastPublished = isPublished ? item.published.lastPublished : '';
+    const lastPublished = isPublished ? item.published.lastPublished : null;
 
     return {
       id: index,
