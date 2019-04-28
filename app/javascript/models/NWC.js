@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER, NWC_PLATFORM,
-  FETCH_NWC_HEALTH_SCORE,
+  FETCH_NWC_HEALTH_SCORE_API, ADD_NWC_WF_API,
 } from '../config';
 
 // Use this to keep the last created dates for all tenant
@@ -91,6 +91,7 @@ const parseDataToArray = (data) => {
       eventType,
       eventConfiguration,
       lastPublished,
+      description,
     };
   });
   // Sort by created data
@@ -237,30 +238,31 @@ export const fetchHealthScores = (workflowId, tenant) => new Promise(async (reso
 });
 
 export const fetchHealthScore = ids => axios.post(
-  FETCH_NWC_HEALTH_SCORE, { ids },
+  FETCH_NWC_HEALTH_SCORE_API, { ids },
 );
 
 export const insertNWCWorkflows = (allWorkflow, existedWorkflow) => {
   const insertWorkflows = [];
   allWorkflow.forEach((workflow) => {
-    if (workflow.workflowId !== existedWorkflow.id) {
-      insertWorkflows.push({
-        id: workflow.workflowId,
-        isPublished: workflow.status === 'Published' ? 1 : 0,
-        name: workflow.name,
-        authorName: workflow.authorName,
-        authorId: workflow.authorId,
-        authorEmail: workflow.authorEmail,
-        created: workflow.created,
-        description: workflow.secondaryInfo.description,
-        eventConfiguration: workflow.eventconfiguration,
-        eventType: workflow.secondaryInfo.eventType,
-        isActive: workflow.active === '' ? 0 : 1,
-        lastPublished: workflow.lastPublished,
-        publishedType: workflow.publishedType,
-        publishedId: workflow.publishedId,
-        tenantUrl: workflow.tenant,
-      });
+    if (!existedWorkflow[workflow.workflowId]) {
+      insertWorkflows.push([
+        workflow.workflowId,
+        workflow.status === 'Published' ? 1 : 0,
+        workflow.name,
+        workflow.authorName,
+        workflow.authorId,
+        workflow.authorEmail,
+        workflow.created,
+        JSON.stringify(workflow.eventConfiguration),
+        JSON.stringify(workflow.eventType),
+        workflow.active === '' ? 0 : 1,
+        workflow.lastPublished,
+        workflow.publishedType,
+        workflow.publishedId,
+        workflow.tenant,
+        workflow.description,
+      ]);
     }
   });
+  if (insertWorkflows.length !== 0) axios.post(ADD_NWC_WF_API, { workflows: insertWorkflows });
 };
