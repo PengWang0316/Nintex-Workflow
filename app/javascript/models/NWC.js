@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
   NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER, NWC_PLATFORM,
+  FETCH_NWC_HEALTH_SCORE,
 } from '../config';
 
 // Use this to keep the last created dates for all tenant
@@ -54,9 +55,17 @@ const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * dep
 const parseDataToArray = (data) => {
   const arr = data.map((item, index) => {
     const isPublished = Object.keys(item.published).length !== 0;
-    const eventType = isPublished ? item.published.eventType.name : item.draft.eventType.name;
+    const eventTypeName = isPublished ? item.published.eventType.name : item.draft.eventType.name;
     const type = isPublished ? item.published.publishedType : '';
     const description = isPublished ? item.published.description : item.draft.description;
+    const authorId = isPublished ? item.published.author.id : item.draft.author.id;
+    const authorEmail = isPublished ? item.published.author.email : item.draft.author.email;
+    const authorName = isPublished ? item.published.author.name : item.draft.author.name;
+    const publishedType = isPublished ? item.published.publishedType : '';
+    const publishedId = isPublished ? item.published.id : '';
+    const eventType = isPublished ? item.published.eventType : item.draft.eventType;
+    const eventConfiguration = isPublished ? item.published.eventConfiguration : item.draft.eventConfiguration;
+    const lastPublished = isPublished ? item.published.lastPublished : '';
 
     return {
       id: index,
@@ -72,8 +81,16 @@ const parseDataToArray = (data) => {
         : new Date(item.draft.created),
       editedBy: isPublished ? item.published.author.name : item.draft.author.name,
       secondaryInfo: JSON.stringify({
-        eventType, type, description, tenant: item.tenant,
+        eventType: eventTypeName, type, description, tenant: item.tenant,
       }),
+      authorId,
+      authorName,
+      authorEmail,
+      publishedId,
+      publishedType,
+      eventType,
+      eventConfiguration,
+      lastPublished,
     };
   });
   // Sort by created data
@@ -218,3 +235,32 @@ export const fetchHealthScores = (workflowId, tenant) => new Promise(async (reso
   }
   resolve(counts);
 });
+
+export const fetchHealthScore = ids => axios.post(
+  FETCH_NWC_HEALTH_SCORE, { ids },
+);
+
+export const insertNWCWorkflows = (allWorkflow, existedWorkflow) => {
+  const insertWorkflows = [];
+  allWorkflow.forEach((workflow) => {
+    if (workflow.workflowId !== existedWorkflow.id) {
+      insertWorkflows.push({
+        id: workflow.workflowId,
+        isPublished: workflow.status === 'Published' ? 1 : 0,
+        name: workflow.name,
+        authorName: workflow.authorName,
+        authorId: workflow.authorId,
+        authorEmail: workflow.authorEmail,
+        created: workflow.created,
+        description: workflow.secondaryInfo.description,
+        eventConfiguration: workflow.eventconfiguration,
+        eventType: workflow.secondaryInfo.eventType,
+        isActive: workflow.active === '' ? 0 : 1,
+        lastPublished: workflow.lastPublished,
+        publishedType: workflow.publishedType,
+        publishedId: workflow.publishedId,
+        tenantUrl: workflow.tenant,
+      });
+    }
+  });
+};
