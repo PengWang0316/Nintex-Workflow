@@ -165,3 +165,18 @@ export const addNewData = (data) => {
     $($('.tabulator-row')[0]).addClass('newRow');
   });
 };
+
+export const updateHealthScore = (existedNWCWorkflows) => {
+  const data = table.getData();
+  const updateData = [];
+  data.forEach((row) => {
+    if (existedNWCWorkflows[row.workflowId] && existedNWCWorkflows[row.workflowId].completed !== null && existedNWCWorkflows[row.workflowId].failed !== null) {
+      updateData.push({
+        id: row.id,
+        healthScores: { completed: existedNWCWorkflows[row.workflowId].completed, failed: existedNWCWorkflows[row.workflowId].failed },
+      });
+    }
+  });
+  console.log(updateData);
+  table.updateData(updateData);
+};

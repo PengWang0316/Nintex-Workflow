@@ -1,6 +1,6 @@
 import { fetchWorkflows, fetchHealthScore, insertNWCWorkflows } from '../models/NWC';
 import { fetchWorkflows as fetchOfficeWorkflows, insertOfficeWorkflows } from '../models/Office';
-import { fillTable } from '../views/WorkflowTableView';
+import { fillTable, updateHealthScore } from '../views/WorkflowTableView';
 import { disableLoading, enableNormal } from '../views/SearchBtnView';
 
 export const searchWorkflows = async () => {
@@ -20,6 +20,7 @@ export const searchWorkflows = async () => {
     existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed };
   });
   // TODO: Update the table data with the score info
+  updateHealthScore(existedNWCWorkflowsObj);
   // Compare and issue a insert API call
   insertNWCWorkflows(data[0], existedNWCWorkflowsObj);
   insertOfficeWorkflows(data[1]);
