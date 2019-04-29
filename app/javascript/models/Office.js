@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   OFFICE_URL_API_KEY, OFFICE_LIST_WORKFLOWS_API,
-  OFFICE_PLATFORM, CORS_PROXY,
+  OFFICE_PLATFORM, CORS_PROXY,ADD_OFFICE_WF_API,
 } from '../config';
 
 // const TENANT_REGEXP = /&tenant=(.+)/;
@@ -65,6 +65,11 @@ const parseDataToArray = (data) => {
       secondaryInfo: JSON.stringify({
         eventType, type, description, tenant: item.tenant,
       }),
+      description,
+      listId: item.listId,
+      region: item.region,
+      workflowType: item.workflowType,
+      assignedUse: item.assignedUse,
     };
   });
   return arr;
@@ -98,4 +103,16 @@ export const fetchWorkflows = () => {
     });
     return parseDataToArray(data);
   });
+};
+
+export const insertOfficeWorkflows = (workflows) => {
+  const insertWorkflows = {};
+  workflows.forEach((workflow) => {
+    insertWorkflows[workflow.workflowId] = [
+      workflow.workflowId, workflow.status, workflow.name,
+      workflow.description, workflow.listId, workflow.region,
+      workflow.workflowType, workflow.assignedUse, workflow.tenant,
+    ];
+  });
+  if (Object.keys(insertWorkflows).length !== 0) axios.post(ADD_OFFICE_WF_API, { workflows: insertWorkflows });
 };

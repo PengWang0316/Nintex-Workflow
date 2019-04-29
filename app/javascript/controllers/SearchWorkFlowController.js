@@ -1,5 +1,5 @@
-import { fetchWorkflows } from '../models/NWC';
-import { fetchWorkflows as fetchOfficeWorkflows } from '../models/Office';
+import { fetchWorkflows, fetchHealthScore, insertNWCWorkflows } from '../models/NWC';
+import { fetchWorkflows as fetchOfficeWorkflows, insertOfficeWorkflows } from '../models/Office';
 import { fillTable } from '../views/WorkflowTableView';
 import { disableLoading, enableNormal } from '../views/SearchBtnView';
 
@@ -12,6 +12,18 @@ export const searchWorkflows = async () => {
 
   const data = await Promise.all([fetchWorkflows(), fetchOfficeWorkflows()]);
   fillTable([...data[0], ...data[1]]);
+
+  const existedNWCWorkflows = (await fetchHealthScore(data[0].map(({ workflowId }) => workflowId))).data;
+  // Transfer it to an object
+  const existedNWCWorkflowsObj = {};
+  existedNWCWorkflows.forEach((workflow) => {
+    existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed };
+  });
+  // TODO: Update the table data with the score info
+  // Compare and issue a insert API call
+  insertNWCWorkflows(data[0], existedNWCWorkflowsObj);
+  insertOfficeWorkflows(data[1]);
+
   enableNormal();
 
   // let nwcData;
