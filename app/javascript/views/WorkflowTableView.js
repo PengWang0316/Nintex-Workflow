@@ -177,6 +177,5 @@ export const updateHealthScore = (existedNWCWorkflows) => {
       });
     }
   });
-  console.log(updateData);
   table.updateData(updateData);
 };
