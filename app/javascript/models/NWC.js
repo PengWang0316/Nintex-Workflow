@@ -243,6 +243,7 @@ export const fetchHealthScore = ids => axios.post(
 
 export const insertNWCWorkflows = (allWorkflow, existedWorkflow) => {
   const insertWorkflows = [];
+  const keys = {};
   allWorkflow.forEach((workflow) => {
     if (!existedWorkflow[workflow.workflowId]) {
       insertWorkflows.push([
@@ -262,7 +263,9 @@ export const insertNWCWorkflows = (allWorkflow, existedWorkflow) => {
         workflow.tenant,
         workflow.description,
       ]);
+      // Put the tenant api keys to an object in order to pass it to back end
+      if (!keys[workflow.tenant]) keys[workflow.tenant] = fetchNWCApis()[workflow.tenant];
     }
   });
-  if (insertWorkflows.length !== 0) axios.post(ADD_NWC_WF_API, { workflows: insertWorkflows });
+  if (insertWorkflows.length !== 0) axios.post(ADD_NWC_WF_API, { workflows: insertWorkflows, keys });
 };
