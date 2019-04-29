@@ -54,3 +54,8 @@ a:hover {
 .newRow {
   background-color:#e7ffd8;
 }
+
+.avatar {
+  width: 60px;
+  height: 60px;
+}
