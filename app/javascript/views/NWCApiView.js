@@ -8,8 +8,10 @@ const getBadgeHtml = ({ key, avatar }) => `<a href="https://${key}${NWC_DOMAIN_N
                               <img src="${AVATAR_IMG_PREFIX}${avatar}" class="${styles.badgeAvatar}" />${key}<span data-key=${key} class="btn ml-2 ${styles.removeBtn} ${RM_BTN_CLASS}">X</span>
                             </span></a>`;
 
-export const initialNWCApiView = (apiKeys, avatars) => {console.log(avatars);
-  const viewArr = Object.keys(apiKeys).map(key => ({ key, avatar: avatars[key] })).map(getBadgeHtml);
+export const initialNWCApiView = (apiKeys, avatars) => {
+  const viewArr = Object.keys(apiKeys)
+    .map(key => ({ key, avatar: avatars[key] }))
+    .map(getBadgeHtml);
   $(NWC_ID).html(viewArr.join(''));
 };
 

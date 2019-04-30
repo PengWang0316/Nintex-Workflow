@@ -1,4 +1,6 @@
-import { fetchNWCApis, removeNWCApi, addNWCApi, fetchNWCAvatars } from '../models/NWC';
+import {
+  fetchNWCApis, removeNWCApi, addNWCApi, fetchNWCAvatars,
+} from '../models/NWC';
 import {
   initialNWCApiView, toggleRemoveAlert, toggleAddModal, disableSaveBtn, enableSaveBtn, appendBadge,
 } from '../views/NWCApiView';
@@ -50,8 +52,8 @@ export const confirmRm = ({ target }) => {
 };
 
 export const initialNWC = () => {
-  const nwcKeys = fetchNWCApis();
-  const nwcAvatars = fetchNWCAvatars();
+  const nwcKeys = fetchNWCApis() || {};
+  const nwcAvatars = fetchNWCAvatars() || {};
   if (nwcKeys && Object.keys(nwcKeys).length !== 0) initialNWCApiView(nwcKeys, nwcAvatars);
   // Add listeners
   $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
