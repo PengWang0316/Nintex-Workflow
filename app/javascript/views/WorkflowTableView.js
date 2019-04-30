@@ -2,15 +2,20 @@ import Tabulator from 'tabulator-tables';
 
 import {
   WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME, NEW_ICON, SCORE_LOADING_ICON,
-  NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID,
+  NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID, AVATAR_IMG_PREFIX,
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
 } from '../config';
 import { deactivate } from '../controllers/WorkflowActionController';
-import { activateAct, deactivateAct, fetchHealthScores } from '../models/NWC';
+import {
+  activateAct, deactivateAct, fetchHealthScores, fetchNWCAvatars,
+} from '../models/NWC';
+import { fetchOfficeAvatars } from '../models/Office';
 import { toggleAlert } from './AlertView';
+import styles from '../../css/ApiView.module.css';
 
 let table;
 const nameFilterInput = $(NAME_FILTER_ID);
+let avatars; // Use to save users' avatar image name.
 
 const columns = [
   {
@@ -88,12 +93,19 @@ const columns = [
   { // A hidden column to keep the tenant name.
     title: '',
     field: 'tenant',
-    visible: false,
+    width: 40,
+    resizable: false,
+    headerSort: true,
+    // visible: false,
+    formatter(cell) {
+      return `<img src="${AVATAR_IMG_PREFIX}${avatars[cell._cell.value]}" class="${styles.badgeAvatar}" />`;
+    },
   },
 ];
 
 
 export const fillTable = (data) => {
+  avatars = { ...fetchNWCAvatars(), ...fetchOfficeAvatars() };
   table = new Tabulator(WORKFLOW_TABLE_ID, {
     pagination: 'local',
     paginationSize: 10,
