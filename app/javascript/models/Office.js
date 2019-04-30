@@ -83,8 +83,7 @@ const parseDataToArray = (data) => {
 };
 
 export const fetchWorkflows = () => {
-  let urlKeys = fetchOfficeApis();
-  if (!urlKeys) urlKeys = {};
+  const urlKeys = fetchOfficeApis() || {};
   const axiosArr = Object.keys(urlKeys).map(key => axios.get(
     `${CORS_PROXY}https://${key}${OFFICE_LIST_WORKFLOWS_API}`,
     {

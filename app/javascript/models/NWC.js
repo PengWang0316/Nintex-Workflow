@@ -107,7 +107,7 @@ const parseDataToArray = (data) => {
 };
 
 export const fetchWorkflows = () => {
-  const urlKeys = fetchNWCApis();
+  const urlKeys = fetchNWCApis() || {};
   const axiosArr = Object.keys(urlKeys).map(key => axios.get(
     NWC_LIST_WORKFLOWS_API,
     {

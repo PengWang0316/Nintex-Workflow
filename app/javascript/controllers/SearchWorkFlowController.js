@@ -13,17 +13,19 @@ export const searchWorkflows = async () => {
   const data = await Promise.all([fetchWorkflows(), fetchOfficeWorkflows()]);
   fillTable([...data[0], ...data[1]]);
 
-  const existedNWCWorkflows = (await fetchHealthScore(data[0].map(({ workflowId }) => workflowId))).data;
-  // Transfer it to an object
-  const existedNWCWorkflowsObj = {};
-  existedNWCWorkflows.forEach((workflow) => {
-    existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed };
-  });
-  // TODO: Update the table data with the score info
-  updateHealthScore(existedNWCWorkflowsObj);
-  // Compare and issue a insert API call
-  insertNWCWorkflows(data[0], existedNWCWorkflowsObj);
-  insertOfficeWorkflows(data[1]);
+  if (data[0].length !== 0) {
+    const existedNWCWorkflows = (await fetchHealthScore(data[0].map(({ workflowId }) => workflowId))).data;
+    // Transfer it to an object
+    const existedNWCWorkflowsObj = {};
+    existedNWCWorkflows.forEach((workflow) => {
+      existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed };
+    });
+    // Update the table data with the score info
+    updateHealthScore(existedNWCWorkflowsObj);
+    // Compare and issue a insert API call
+    insertNWCWorkflows(data[0], existedNWCWorkflowsObj);
+  }
+  if (data[1].length !== 0) insertOfficeWorkflows(data[1]);
 
   enableNormal();
 
