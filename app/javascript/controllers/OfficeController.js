@@ -1,9 +1,11 @@
-import { fetchOfficeApis, removeOfficeApi, addOfficeApi } from '../models/Office';
+import {
+  fetchOfficeApis, removeOfficeApi, addOfficeApi, fetchOfficeAvatars,
+} from '../models/Office';
 import {
   initialOfficeApiView, toggleRemoveAlert, toggleAddModal, disableSaveBtn, enableSaveBtn, appendBadge,
 } from '../views/OfficeApiView';
 import {
-  DELETE_CONFIRM_BTN_ID, ADD_OFFICE_BTN_ID, ADD_OFFICE_NAME_ID,
+  DELETE_CONFIRM_BTN_ID, ADD_OFFICE_BTN_ID, ADD_OFFICE_NAME_ID, OFFICE_AVATAR_SELECT_ID,
   ADD_OFFICE_KEY_ID, ADD_OFFICE_CONFIRM_BTN_ID, RM_OFFICE_BTN_CLASS, ADD_OFFICE_COOKIE_ID,
 } from '../config';
 
@@ -28,8 +30,9 @@ export const addNwcApiListener = () => {
   const nameElement = $(ADD_OFFICE_NAME_ID);
   const keyElement = $(ADD_OFFICE_KEY_ID);
   const cookieElement = $(ADD_OFFICE_COOKIE_ID);
-  addOfficeApi(nameElement.val(), keyElement.val(), cookieElement.val());
-  appendBadge(nameElement.val());
+  const avatarElement = $(OFFICE_AVATAR_SELECT_ID);
+  addOfficeApi(nameElement.val(), keyElement.val(), cookieElement.val(), avatarElement.val());
+  appendBadge(nameElement.val(), avatarElement.val());
 
   // Add remove button listener
   $(`.${RM_OFFICE_BTN_CLASS}`).on('click', removeOfficeKey);
@@ -49,8 +52,9 @@ export const confirmRm = ({ target }) => {
 };
 
 export const initialOffice = () => {
-  const officeKeys = fetchOfficeApis();
-  if (officeKeys && Object.keys(officeKeys).length !== 0) initialOfficeApiView(officeKeys);
+  const officeKeys = fetchOfficeApis() || {};
+  const avatars = fetchOfficeAvatars() || {};
+  if (officeKeys && Object.keys(officeKeys).length !== 0) initialOfficeApiView(officeKeys, avatars);
   // Add listeners
   $(`.${RM_OFFICE_BTN_CLASS}`).on('click', removeOfficeKey);
   $(ADD_OFFICE_BTN_ID).on('click', toggleAddModal);

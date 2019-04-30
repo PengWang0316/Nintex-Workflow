@@ -26,6 +26,7 @@ export const MOVE_ACT_ID = '#moveAct';
 export const DELETE_ACT_ID = '#deleteAct';
 export const ALERT_ELEMENT_ID = '#alert';
 export const NWC_AVATAR_SELECT_ID = '#nwcAvatar';
+export const OFFICE_AVATAR_SELECT_ID = '#officeAvatar';
 export const AVATAR_IMG_PREFIX = '/assets/images/avatars/';
 
 export const OFFICE_LIST_WORKFLOWS_API = '/api/v1/workflows';
@@ -39,6 +40,7 @@ export const OFFICE_ID = '#offiecContainer';
 export const ADD_OFFICE_API_ID = '#addOfficeApi';
 export const ADD_OFFICE_COOKIE_ID = '#addOfficeCookie';
 export const OFFICE_URL_API_KEY = 'nintex-office-url-key';
+export const OFFICE_AVATAR_KEY = 'nintex-office-avatar-key';
 
 export const NWC_PLATFORM = 'nwc';
 export const OFFICE_PLATFORM = 'office';

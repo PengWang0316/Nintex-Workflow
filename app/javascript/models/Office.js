@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   OFFICE_URL_API_KEY, OFFICE_LIST_WORKFLOWS_API,
-  OFFICE_PLATFORM, CORS_PROXY,ADD_OFFICE_WF_API,
+  OFFICE_PLATFORM, CORS_PROXY, ADD_OFFICE_WF_API, OFFICE_AVATAR_KEY,
 } from '../config';
 
 // const TENANT_REGEXP = /&tenant=(.+)/;
@@ -16,6 +16,8 @@ import {
  */
 export const fetchOfficeApis = () => JSON.parse(localStorage.getItem(OFFICE_URL_API_KEY));
 
+export const fetchOfficeAvatars = () => JSON.parse(localStorage.getItem(OFFICE_AVATAR_KEY));
+
 /**
  * Retrieve the whole Office 365 url api key and add one more in.
  * It is not efficient due to read and write the entire localStorage over and over again
@@ -23,11 +25,13 @@ export const fetchOfficeApis = () => JSON.parse(localStorage.getItem(OFFICE_URL_
  * @param {string} key is the api key value for this tenant url
  * @param {string} cookie is the authentication cookie value for this tenant url
  */
-export const addOfficeApi = (tenant, key, cookie) => {
-  let office = fetchOfficeApis();
-  if (!office) office = {};
+export const addOfficeApi = (tenant, key, cookie, avatar) => {
+  const office = fetchOfficeApis() || {};
+  const avatars = fetchOfficeAvatars() || {};
   office[tenant] = [key, cookie];
+  avatars[tenant] = avatar;
   localStorage.setItem(OFFICE_URL_API_KEY, JSON.stringify(office));
+  localStorage.setItem(OFFICE_AVATAR_KEY, JSON.stringify(avatars));
 };
 
 /**
@@ -37,8 +41,11 @@ export const addOfficeApi = (tenant, key, cookie) => {
  */
 export const removeOfficeApi = (tenant) => {
   const office = fetchOfficeApis();
+  const avatar = fetchOfficeAvatars();
   delete office[tenant];
+  delete avatar[tenant];
   localStorage.setItem(OFFICE_URL_API_KEY, JSON.stringify(office));
+  localStorage.setItem(OFFICE_AVATAR_KEY, JSON.stringify(avatar));
 };
 
 const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
