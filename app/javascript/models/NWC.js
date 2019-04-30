@@ -57,8 +57,8 @@ export const removeNWCApi = (tenant) => {
 //   let lastDates = 1
 // };
 
-const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
-const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
+// const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
+// const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
 
 const parseDataToArray = (data) => {
   const arr = data.map((item, index) => {
@@ -80,7 +80,7 @@ const parseDataToArray = (data) => {
       platform: NWC_PLATFORM,
       tenant: item.tenant,
       workflowId: item.id,
-      department: getRandomFakeDepartment(),
+      department: '',
       name: item.name,
       status: isPublished ? 'Published' : 'Draft',
       active: isPublished ? item.published.isActive : '',
