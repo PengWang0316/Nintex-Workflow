@@ -30,3 +30,10 @@
   height: 32px;
   margin-right: 12px;
 }
+
+.badgeAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin-right: 5px;
+}

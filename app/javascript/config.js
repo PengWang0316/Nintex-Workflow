@@ -1,5 +1,6 @@
 export const NWC_ID = '#nwcContainer';
 export const NWC_URL_API_KEY = 'nintex-nwc-url-key';
+export const NWC_AVATAR_KEY = 'nintex-nwc-avatar-key';
 export const WORKFLOW_TABLE_ID = '#workflowTable';
 export const NWC_LIST_WORKFLOWS_API = 'https://us.nintex.io/workflows/v1/designs';
 export const BEARER_HEADER = 'Bearer';
@@ -24,6 +25,8 @@ export const EXPORT_ACT_ID = '#exportAct';
 export const MOVE_ACT_ID = '#moveAct';
 export const DELETE_ACT_ID = '#deleteAct';
 export const ALERT_ELEMENT_ID = '#alert';
+export const NWC_AVATAR_SELECT_ID = '#nwcAvatar';
+export const AVATAR_IMG_PREFIX = '/assets/images/avatars/';
 
 export const OFFICE_LIST_WORKFLOWS_API = '/api/v1/workflows';
 export const DELETE_CONFIRM_OBTN_ID = '#deleteConfirmOBtn';

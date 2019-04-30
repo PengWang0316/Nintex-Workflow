@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   NWC_URL_API_KEY, NWC_LIST_WORKFLOWS_API, BEARER_HEADER, NWC_PLATFORM,
-  FETCH_NWC_HEALTH_SCORE_API, ADD_NWC_WF_API,
+  FETCH_NWC_HEALTH_SCORE_API, ADD_NWC_WF_API, NWC_AVATAR_KEY,
 } from '../config';
 
 // Use this to keep the last created dates for all tenant
@@ -19,17 +19,22 @@ const lastCreatedDates = {};
  */
 export const fetchNWCApis = () => JSON.parse(localStorage.getItem(NWC_URL_API_KEY));
 
+export const fetchNWCAvatars = () => JSON.parse(localStorage.getItem(NWC_AVATAR_KEY));
+
 /**
  * Retrieve the whole nwc url api key and add one more in.
  * It is not efficient due to read and write the entire localStorage over and over again
  * @param {string} tenant is the tenant name
  * @param {string} key is the api key value for this tenant url
  */
-export const addNWCApi = (tenant, key) => {
-  let nwc = fetchNWCApis();
-  if (!nwc) nwc = {};
+export const addNWCApi = (tenant, key, avaltar) => {
+  const nwc = fetchNWCApis() || {};
+  const nwcAvatar = fetchNWCAvatars() || {};
+
   nwc[tenant] = key;
+  nwcAvatar[tenant] = avaltar;
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
+  localStorage.setItem(NWC_AVATAR_KEY, JSON.stringify(nwcAvatar));
 };
 
 /**
@@ -39,8 +44,11 @@ export const addNWCApi = (tenant, key) => {
  */
 export const removeNWCApi = (tenant) => {
   const nwc = fetchNWCApis();
+  const avatar = fetchNWCAvatars();
   delete nwc[tenant];
+  delete avatar[tenant];
   localStorage.setItem(NWC_URL_API_KEY, JSON.stringify(nwc));
+  localStorage.setItem(NWC_AVATAR_KEY, JSON.stringify(avatar));
 };
 
 // export const fetchLastDate = () => JSON.parse(localStorage.getItem(LAST_CREATED_DATE_KEY));

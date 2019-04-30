@@ -1,10 +1,10 @@
-import { fetchNWCApis, removeNWCApi, addNWCApi } from '../models/NWC';
+import { fetchNWCApis, removeNWCApi, addNWCApi, fetchNWCAvatars } from '../models/NWC';
 import {
   initialNWCApiView, toggleRemoveAlert, toggleAddModal, disableSaveBtn, enableSaveBtn, appendBadge,
 } from '../views/NWCApiView';
 import {
   DELETE_CONFIRM_BTN_ID, ADD_NWC_BTN_ID, ADD_NWC_NAME_ID,
-  ADD_NWC_KEY_ID, ADD_NWC_CONFIRM_BTN_ID, RM_BTN_CLASS,
+  ADD_NWC_KEY_ID, ADD_NWC_CONFIRM_BTN_ID, RM_BTN_CLASS, NWC_AVATAR_SELECT_ID,
 } from '../config';
 
 export const removeNWCKey = ({ target }) => {
@@ -28,8 +28,9 @@ export const checkInputListener = () => {
 export const addNwcApiListener = () => {
   const nameElement = $(ADD_NWC_NAME_ID);
   const keyElement = $(ADD_NWC_KEY_ID);
-  addNWCApi(nameElement.val(), keyElement.val());
-  appendBadge(nameElement.val());
+  const avatarElement = $(NWC_AVATAR_SELECT_ID);
+  addNWCApi(nameElement.val(), keyElement.val(), avatarElement.val());
+  appendBadge(nameElement.val(), avatarElement.val());
 
   // Add remove button listener
   $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
@@ -50,7 +51,8 @@ export const confirmRm = ({ target }) => {
 
 export const initialNWC = () => {
   const nwcKeys = fetchNWCApis();
-  if (nwcKeys && Object.keys(nwcKeys).length !== 0) initialNWCApiView(nwcKeys);
+  const nwcAvatars = fetchNWCAvatars();
+  if (nwcKeys && Object.keys(nwcKeys).length !== 0) initialNWCApiView(nwcKeys, nwcAvatars);
   // Add listeners
   $(`.${RM_BTN_CLASS}`).on('click', removeNWCKey);
   $(ADD_NWC_BTN_ID).on('click', toggleAddModal);
