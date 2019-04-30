@@ -58,8 +58,10 @@ export const AUTO_FETCHING_BTN_ID = '#fetchingSwitch';
 export const FETCHING_INTERVAL = 60000;
 export const LAST_CREATED_DATE_KEY = 'nwc_last_create_date';
 export const SCORE_LOADING_ICON = '/assets/images/ScoreLoading.svg';
+export const DEPARTMENTS = ['Accounting', 'Marketing', 'HR', 'Research', 'IT', 'Sale'];
 
 const AWS_API_BASE = 'https://uhvp3s4kca.execute-api.us-west-2.amazonaws.com/dev';
 export const FETCH_NWC_HEALTH_SCORE_API = `${AWS_API_BASE}/nwcworkflows`;
 export const ADD_OFFICE_WF_API = `${AWS_API_BASE}/officeworkflows`;
 export const ADD_NWC_WF_API = `${AWS_API_BASE}/nwcworkflow`;
+export const UPDATE_DEPARTMENT_API = `${AWS_API_BASE}/department`;

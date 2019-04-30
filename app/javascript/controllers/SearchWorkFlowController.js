@@ -1,6 +1,6 @@
 import { fetchWorkflows, fetchHealthScore, insertNWCWorkflows } from '../models/NWC';
 import { fetchWorkflows as fetchOfficeWorkflows, insertOfficeWorkflows } from '../models/Office';
-import { fillTable, updateHealthScore } from '../views/WorkflowTableView';
+import { fillTable, updateHealthScore, updateOfficeDepartment } from '../views/WorkflowTableView';
 import { disableLoading, enableNormal } from '../views/SearchBtnView';
 
 export const searchWorkflows = async () => {
@@ -18,14 +18,15 @@ export const searchWorkflows = async () => {
     // Transfer it to an object
     const existedNWCWorkflowsObj = {};
     existedNWCWorkflows.forEach((workflow) => {
-      existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed };
+      existedNWCWorkflowsObj[workflow.id] = { completed: workflow.completed, failed: workflow.failed, department: workflow.department };
     });
     // Update the table data with the score info
     updateHealthScore(existedNWCWorkflowsObj);
     // Compare and issue a insert API call
     insertNWCWorkflows(data[0], existedNWCWorkflowsObj);
   }
-  if (data[1].length !== 0) insertOfficeWorkflows(data[1]);
+  // TODO: make insertOfficeWorkflows separately with the getDepartment API to unblock user's interface
+  if (data[1].length !== 0) updateOfficeDepartment(await insertOfficeWorkflows(data[1]), data[1]);
 
   enableNormal();
 

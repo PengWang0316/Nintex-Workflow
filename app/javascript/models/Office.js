@@ -50,7 +50,7 @@ export const removeOfficeApi = (tenant) => {
 
 // const departments = ['Accounting', 'Marketing', 'HR', 'Research', 'IT'];
 // const getRandomFakeDepartment = () => departments[Math.floor(Math.random() * departments.length)];
-
+// The index has to offset 10000 to avoid having a conflict with NWC workflows' index
 const parseDataToArray = (data) => {
   const arr = data.map((item, index) => {
     const isPublished = item.isPublished === true;
@@ -59,7 +59,7 @@ const parseDataToArray = (data) => {
     const { description } = item;
 
     return {
-      id: index,
+      id: index + 10000,
       platform: OFFICE_PLATFORM,
       tenant: item.tenant,
       workflowId: item.id,
@@ -120,5 +120,6 @@ export const insertOfficeWorkflows = (workflows) => {
       workflow.workflowType, workflow.assignedUse, workflow.tenant,
     ];
   });
-  if (Object.keys(insertWorkflows).length !== 0) axios.post(ADD_OFFICE_WF_API, { workflows: insertWorkflows });
+  if (Object.keys(insertWorkflows).length !== 0) return axios.post(ADD_OFFICE_WF_API, { workflows: insertWorkflows });
+  return {};
 };

@@ -1,9 +1,12 @@
 import Tabulator from 'tabulator-tables';
 
+import axios from 'axios';
+
 import {
   WORKFLOW_TABLE_ID, NAME_FILTER_ID, TABLE_RADIO_NAME, NEW_ICON, SCORE_LOADING_ICON,
   NWC_PLATFORM, NWC_ICON, OFFICE_ICON, SECONDAY_INFO_DESCRIPTION_ID, AVATAR_IMG_PREFIX,
   SECONDAY_INFO_ID, SECONDAY_INFO_EVENTTYPE_ID, SECONDAY_INFO_TYPE_ID, SECONDAY_INFO_TENANT_ID,
+  UPDATE_DEPARTMENT_API, DEPARTMENTS,
 } from '../config';
 import { deactivate } from '../controllers/WorkflowActionController';
 import {
@@ -50,7 +53,12 @@ const columns = [
     title: 'Name', field: 'name', align: 'left', sorter: 'string',
   },
   {
-    title: 'Department', field: 'department', align: 'left', sorter: 'string',
+    title: 'Department',
+    field: 'department',
+    align: 'left',
+    sorter: 'string',
+    editor: 'autocomplete',
+    editorParams: { allowEmpty: true, showListOnEmpty: true, freetext: true, values: DEPARTMENTS },
   },
   {
     title: 'Author', field: 'editedBy', align: 'left', sorter: 'string',
@@ -145,6 +153,10 @@ export const fillTable = (data) => {
         $(SECONDAY_INFO_ID).modal('toggle');
       }
     },
+    cellEdited({ _cell: { value, row: { data: { workflowId, platform } } } }) {
+      // Update the department information after editing
+      axios.put(UPDATE_DEPARTMENT_API, { platform, workflowId, value });
+    },
   });
 };
 
@@ -161,33 +173,47 @@ export const removeRow = (rowNum) => {
 };
 
 export const addNewData = (data) => {
-  if (table) data.reverse().forEach((rowData) => {
-    table.addRow(rowData, true);
-    const row = table.getRow(0);
-    // Deactive if it is a published workflow
-    if (row._row.data.status === 'Published') {
-      deactivate(row._row.data.workflowId, row._row.data.tenant);
-      row.update({ active: 'false' });
-    }
-    // update the platform icon to a new icon
-    row.update({ platform: NEW_ICON });
-    // Update the background color
-    // This is like a hack way to do this :)
-    // TODO: Change it
-    $($('.tabulator-row')[0]).addClass('newRow');
-  });
+  if (table) {
+    data.reverse().forEach((rowData) => {
+      table.addRow(rowData, true);
+      const row = table.getRow(0);
+      // Deactive if it is a published workflow
+      if (row._row.data.status === 'Published') {
+        deactivate(row._row.data.workflowId, row._row.data.tenant);
+        row.update({ active: 'false' });
+      }
+      // update the platform icon to a new icon
+      row.update({ platform: NEW_ICON });
+      // Update the background color
+      // This is like a hack way to do this :)
+      // TODO: Change it
+      $($('.tabulator-row')[0]).addClass('newRow');
+    });
+  }
 };
 
+// TODO: These two update methods could be combine together.
+// Update the health score and department columns for NWC workflows
 export const updateHealthScore = (existedNWCWorkflows) => {
   const data = table.getData();
   const updateData = [];
   data.forEach((row) => {
-    if (existedNWCWorkflows[row.workflowId] && existedNWCWorkflows[row.workflowId].completed !== null && existedNWCWorkflows[row.workflowId].failed !== null) {
-      updateData.push({
-        id: row.id,
-        healthScores: { completed: existedNWCWorkflows[row.workflowId].completed, failed: existedNWCWorkflows[row.workflowId].failed },
-      });
+    if (existedNWCWorkflows[row.workflowId]) {
+      const updateObj = { id: row.id, department: existedNWCWorkflows[row.workflowId].department };
+      if (existedNWCWorkflows[row.workflowId].completed !== null && existedNWCWorkflows[row.workflowId].failed !== null) {
+        updateObj.healthScores = { completed: existedNWCWorkflows[row.workflowId].completed, failed: existedNWCWorkflows[row.workflowId].failed };
+      }
+      updateData.push(updateObj);
     }
+  });
+  table.updateData(updateData);
+};
+
+export const updateOfficeDepartment = ({ data: { departments } }) => {
+  const data = table.getData();
+  const updateData = [];
+  data.forEach((row) => {
+    if (departments[row.workflowId]) updateData.push({ id: row.id, department: departments[row.workflowId] });
   });
   table.updateData(updateData);
 };
